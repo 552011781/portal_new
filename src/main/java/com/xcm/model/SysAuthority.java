@@ -8,26 +8,6 @@ import java.io.Serializable;
  */
 public class SysAuthority implements Serializable {
     /**
-     * authority_id	varchar	32	0	0	0	0	0	0		0		utf8	utf8_general_ci		-1	0
-     parent_id	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     type	varchar	1	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     authority_name	varchar	50	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     authority_desc	varchar	255	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     url	varchar	255	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     classes	varchar	255	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     item_id	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     able	varchar	1	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     icon	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     sort_num	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     create_time	bigint	15	0	-1	0	0	0	0		0					0	0
-     create_user_id	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     update_time	bigint	20	0	-1	0	0	0	0		0					0	0
-     update_user_id	varchar	32	0	-1	0	0	0	0		0		utf8	utf8_general_ci		0	0
-     status	int	1	0	-1	0	0	0	0		0					0	0
-     */
-
-
-    /**
      * 权限id
      */
     private String authorityId;
@@ -92,4 +72,175 @@ public class SysAuthority implements Serializable {
      */
     private String status;
 
+    public String getAuthorityId() {
+        return authorityId;
+    }
+
+    public void setAuthorityId(String authorityId) {
+        this.authorityId = authorityId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAuthorityName() {
+        return authorityName;
+    }
+
+    public void setAuthorityName(String authorityName) {
+        this.authorityName = authorityName;
+    }
+
+    public String getAuthorityDesc() {
+        return authorityDesc;
+    }
+
+    public void setAuthorityDesc(String authorityDesc) {
+        this.authorityDesc = authorityDesc;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getClasses() {
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
+    }
+
+    public String getAble() {
+        return able;
+    }
+
+    public void setAble(String able) {
+        this.able = able;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getSortNum() {
+        return sortNum;
+    }
+
+    public void setSortNum(Integer sortNum) {
+        this.sortNum = sortNum;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Long updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(String updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public SysAuthority() {
+    }
+
+    public SysAuthority(String authorityId, String parentId, String type, String authorityName, String authorityDesc, String url, String classes, String itemId, String able, String icon, Integer sortNum, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
+        this.authorityId = authorityId;
+        this.parentId = parentId;
+        this.type = type;
+        this.authorityName = authorityName;
+        this.authorityDesc = authorityDesc;
+        this.url = url;
+        this.classes = classes;
+        this.itemId = itemId;
+        this.able = able;
+        this.icon = icon;
+        this.sortNum = sortNum;
+        this.createTime = createTime;
+        this.createUserId = createUserId;
+        this.updateTime = updateTime;
+        this.updateUserId = updateUserId;
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "SysAuthority{" +
+                "authorityId='" + authorityId + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", type='" + type + '\'' +
+                ", authorityName='" + authorityName + '\'' +
+                ", authorityDesc='" + authorityDesc + '\'' +
+                ", url='" + url + '\'' +
+                ", classes='" + classes + '\'' +
+                ", itemId='" + itemId + '\'' +
+                ", able='" + able + '\'' +
+                ", icon='" + icon + '\'' +
+                ", sortNum=" + sortNum +
+                ", createTime=" + createTime +
+                ", createUserId='" + createUserId + '\'' +
+                ", updateTime=" + updateTime +
+                ", updateUserId='" + updateUserId + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }
