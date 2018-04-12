@@ -28,6 +28,10 @@ public class SysUser implements Serializable {
      */
     private String realName;
     /**
+     * 身份号
+     */
+    private String idCard;
+    /**
      * 邮箱
      */
     private String email;
@@ -35,6 +39,10 @@ public class SysUser implements Serializable {
      * 手机号
      */
     private String telephone;
+    /**
+     * 是否启用（1启用，0停用）
+     */
+    private String able;
     /**
      * 创建时间
      */
@@ -96,6 +104,14 @@ public class SysUser implements Serializable {
         this.realName = realName;
     }
 
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -110,6 +126,14 @@ public class SysUser implements Serializable {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getAble() {
+        return able;
+    }
+
+    public void setAble(String able) {
+        this.able = able;
     }
 
     public Long getCreateTime() {
@@ -155,14 +179,16 @@ public class SysUser implements Serializable {
     public SysUser() {
     }
 
-    public SysUser(String userId, String departmentId, String userName, String password, String realName, String email, String telephone, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
+    public SysUser(String userId, String departmentId, String userName, String password, String realName, String idCard, String email, String telephone, String able, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
         this.userId = userId;
         this.departmentId = departmentId;
         this.userName = userName;
         this.password = password;
         this.realName = realName;
+        this.idCard = idCard;
         this.email = email;
         this.telephone = telephone;
+        this.able = able;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.updateTime = updateTime;
@@ -178,11 +204,13 @@ public class SysUser implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
+                ", idCard='" + idCard + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", able='" + able + '\'' +
                 ", createTime=" + createTime +
                 ", createUserId='" + createUserId + '\'' +
-                ", updateTime='" + updateTime + '\'' +
+                ", updateTime=" + updateTime +
                 ", updateUserId='" + updateUserId + '\'' +
                 ", status='" + status + '\'' +
                 '}';

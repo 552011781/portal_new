@@ -32,6 +32,10 @@ public class SysDepartment implements Serializable {
      */
     private String sortcode;
     /**
+     * 是否启用（1启用，0停用）
+     */
+    private String able;
+    /**
      * 创建时间
      */
     private Long createTime;
@@ -100,6 +104,14 @@ public class SysDepartment implements Serializable {
         this.sortcode = sortcode;
     }
 
+    public String getAble() {
+        return able;
+    }
+
+    public void setAble(String able) {
+        this.able = able;
+    }
+
     public Long getCreateTime() {
         return createTime;
     }
@@ -143,13 +155,14 @@ public class SysDepartment implements Serializable {
     public SysDepartment() {
     }
 
-    public SysDepartment(String departmentId, String parentId, String departmentName, String departmentCode, String description, String sortcode, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
+    public SysDepartment(String departmentId, String parentId, String departmentName, String departmentCode, String description, String sortcode, String able, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
         this.departmentId = departmentId;
         this.parentId = parentId;
         this.departmentName = departmentName;
         this.departmentCode = departmentCode;
         this.description = description;
         this.sortcode = sortcode;
+        this.able = able;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.updateTime = updateTime;
@@ -166,6 +179,7 @@ public class SysDepartment implements Serializable {
                 ", departmentCode='" + departmentCode + '\'' +
                 ", description='" + description + '\'' +
                 ", sortcode='" + sortcode + '\'' +
+                ", able='" + able + '\'' +
                 ", createTime=" + createTime +
                 ", createUserId='" + createUserId + '\'' +
                 ", updateTime=" + updateTime +
