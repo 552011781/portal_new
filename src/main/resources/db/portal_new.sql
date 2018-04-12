@@ -26,7 +26,7 @@ CREATE TABLE `role_authority` (
   KEY `FK_Reference_5` (`authority_id`),
   CONSTRAINT `FK_Reference_4` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`),
   CONSTRAINT `FK_Reference_5` FOREIGN KEY (`authority_id`) REFERENCES `sys_authority` (`authority_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='��ɫȨ�޹�����';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限关联表';
 
 -- ----------------------------
 -- Records of role_authority
@@ -54,7 +54,7 @@ CREATE TABLE `sys_authority` (
   `update_user_id` varchar(32) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`authority_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Ȩ�ޣ�ϵͳ���˵�����ť��';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
 -- Records of sys_authority
@@ -78,7 +78,7 @@ CREATE TABLE `sys_department` (
   `update_user_id` varchar(32) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`department_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='����';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门表';
 
 -- ----------------------------
 -- Records of sys_department
@@ -98,7 +98,7 @@ CREATE TABLE `sys_role` (
   `update_user_id` varchar(32) DEFAULT NULL,
   `status` int(1) DEFAULT NULL,
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='��ɫ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of sys_role
@@ -126,7 +126,7 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`user_id`),
   KEY `FK_Reference_1` (`department_id`),
   CONSTRAINT `FK_Reference_1` FOREIGN KEY (`department_id`) REFERENCES `sys_department` (`department_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='�û�';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of sys_user
@@ -143,7 +143,7 @@ CREATE TABLE `user_role` (
   KEY `FK_Reference_3` (`role_id`),
   CONSTRAINT `FK_Reference_2` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`user_id`),
   CONSTRAINT `FK_Reference_3` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='�û���ɫ������';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色关联表';
 
 -- ----------------------------
 -- Records of user_role
