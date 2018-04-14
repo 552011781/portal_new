@@ -13,8 +13,14 @@ public class SysUserConstants {
     public static final String DELETE_FAIL = "删除用户失败";
     public static final String UPDATE_SUCCESS = "更新用户成功";
     public static final String UPDATE_FAIL = "更新用户失败";
+    public static final String ENABLE_SUCCESS = "启用成功";
+    public static final String ENABLE_FAIL = "启用失败";
+    public static final String DISABLE_SUCCESS = "停用成功";
+    public static final String DISABLE_FAIL = "停用失败";
+    public static final String STATUS_DISABLE = "0";
+    public static final String STATUS_ENABLE = "1";
     public static final String PARAM_SYS_BUTTON_ID_NOT_NULL = "参数用户id不能为空";
-    public static final String VALIDATE_NO_SYS_USER = "未填写用户数据";
+    public static final String VALIDATE_NO_SYS_USER = "未填写数据";
     public static final String VALIDATE_USERNAME_ERROR = "用户名错误";
     public static final String VALIDATE_PASSWORD_ERROR = "密码错误";
     public static final String VALIDATE_DEPARTMENT_ERROR = "部门不能为空";

@@ -79,4 +79,12 @@ public interface SysUserService extends BaseService<SysUser> {
      * @return
      */
     List<SysUserVo> list(Map<String, String> paramMap);
+
+    /**
+     * 设置用户启用状态
+     *
+     * @param userId 启用的用户id
+     * @param able   启用状态（1启用，0停用）
+     */
+    void setEnbleOrDisable(Integer userId, String able);
 }

@@ -17,11 +17,9 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
      * 列表分页
      *
      * @param paramMap 参数
-     * @param pageNum  第几页
-     * @param pageSize 每页几条
      * @return
      */
-    Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysDepartmentVo> listPage(Map<String, String> paramMap);
 
     /**
      * 查询集合

@@ -8,6 +8,7 @@ import com.xcm.dao.SysDepartmentMapper;
 import com.xcm.model.SysDepartment;
 import com.xcm.model.SysUser;
 import com.xcm.model.vo.SysDepartmentVo;
+import com.xcm.page.PageUtil;
 import com.xcm.service.SysDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
         SysUser currentUser = (SysUser) redisCacheDao.getCache(CacheSysUserConstant.USER, CacheSysUserConstant.CURRENT_USER);
         sysDepartment.setCreateTime(System.currentTimeMillis());
         sysDepartment.setCreateUserId(currentUser.getUserId());
+        sysDepartment.setStatus("1");
         sysDepartment.setAble("1");
         sysDepartmentMapper.save(sysDepartment);
     }
@@ -108,7 +110,8 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
     @Override
     public Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return sysDepartmentMapper.listPage(null, pageNum, pageSize);
+        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
+        return sysDepartmentMapper.listPage(paramMap);
     }
 
     /**

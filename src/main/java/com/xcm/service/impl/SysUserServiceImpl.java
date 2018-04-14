@@ -7,16 +7,17 @@ import com.xcm.constant.BaseConstant;
 import com.xcm.constant.cache.CacheSysUserConstant;
 import com.xcm.dao.SysUserMapper;
 import com.xcm.model.SysUser;
+import com.xcm.model.UserRole;
 import com.xcm.model.vo.SysUserVo;
-import com.xcm.model.vo.UserRoleVo;
+import com.xcm.page.PageUtil;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,8 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public Page<SysUserVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return sysUserMapper.listPage(paramMap, pageNum, pageSize);
+        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
+        return sysUserMapper.listPage(paramMap);
     }
 
     /**
@@ -97,6 +99,8 @@ public class SysUserServiceImpl implements SysUserService {
         SysUser currentUser = (SysUser) redisCacheDao.getCache(CacheSysUserConstant.USER, CacheSysUserConstant.CURRENT_USER);
         sysUser.setCreateTime(System.currentTimeMillis());
         sysUser.setCreateUserId(currentUser.getUserId());
+        sysUser.setAble("1");
+        sysUser.setStatus("1");
         sysUserMapper.save(sysUser);
     }
 
@@ -151,10 +155,8 @@ public class SysUserServiceImpl implements SysUserService {
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void update(SysUser sysUser, String roleIds) {
-        SysUser currentUser = (SysUser) redisCacheDao.getCache(CacheSysUserConstant.USER, CacheSysUserConstant.CURRENT_USER);
-        sysUser.setUpdateTime(System.currentTimeMillis());
-        sysUser.setUpdateUserId(currentUser.getUserId());
-        sysUserMapper.update(sysUser);
+        //更新用户
+        update(sysUser);
         //清除之前的角色
         sysUserMapper.removeOldRole(sysUser.getUserId());
         //关联新的角色
@@ -214,11 +216,23 @@ public class SysUserServiceImpl implements SysUserService {
         }
         roleIds = CheckUtil.removeLastChar(BaseConstant.COMMA_EN, roleIds);
         String[] roleIdArr = roleIds.split(BaseConstant.COMMA_EN);
-        List<UserRoleVo> userRoleVoList = new ArrayList<UserRoleVo>();
+        List<UserRole> userRoleList = new ArrayList<UserRole>();
         for (String roleId : roleIdArr) {
-            UserRoleVo userRoleVo = new UserRoleVo(userId, Integer.parseInt(roleId));
-            userRoleVoList.add(userRoleVo);
+            UserRole userRole = new UserRole(userId, Integer.parseInt(roleId));
+            userRoleList.add(userRole);
         }
-        sysUserMapper.authorizeUserWithRoles(userRoleVoList);
+        sysUserMapper.authorizeUserWithRoles(userRoleList);
+    }
+
+    /**
+     * 启用用户
+     *
+     * @param userId 启用的用户id
+     * @param able   是否启用（1启用，0停用）
+     */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    @Override
+    public void setEnbleOrDisable(Integer userId, String able) {
+        sysUserMapper.setAble(userId, able);
     }
 }

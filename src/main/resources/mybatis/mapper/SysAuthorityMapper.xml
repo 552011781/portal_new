@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysAuthorityMapper">
+    <resultMap id="BaseResultMap" type="com.xcm.model.SysAuthority">
+        <id column="authority_id" property="authorityId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="authority_name" property="authorityName" jdbcType="VARCHAR"/>
+        <result column="authority_desc" property="authorityDesc" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="classes" property="classes" jdbcType="VARCHAR"/>
+        <result column="item_id" property="itemId" jdbcType="VARCHAR"/>
+        <result column="able" property="able" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="sort_num" property="sortNum" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_table_name">
+		sys_authority
+    </sql>
+
+    <sql id="Base_Column_List">
+		authority_id, parent_id, type, authority_name, authority_desc, url, classes, item_id, able, icon, sort_num,
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <sql id="Base_Column_List_no_id">
+		parent_id, type, authority_name, authority_desc, url, classes, item_id, able, icon, sort_num,
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where authority_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+        <include refid="Base_table_name"/>
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--新增不返回主键-->
+    <insert id="save" parameterType="com.xcm.model.SysAuthority">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List"/>)
+        values (
+        #{authorityId,jdbcType=INTEGER},
+        #{parentId,jdbcType=INTEGER},
+        #{type,jdbcType=VARCHAR},
+        #{authorityName,jdbcType=VARCHAR},
+        #{authorityDesc,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR},
+        #{classes,jdbcType=VARCHAR},
+        #{itemId,jdbcType=VARCHAR},
+        #{able,jdbcType=VARCHAR},
+        #{icon,jdbcType=VARCHAR},
+        #{sortNum,jdbcType=INTEGER},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--新增并返回主键-->
+    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="authorityId" keyColumn="authority_id"
+            parameterType="com.xcm.model.SysAuthority">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List_no_id"/>)
+        values (
+        #{parentId,jdbcType=INTEGER},
+        #{type,jdbcType=VARCHAR},
+        #{authorityName,jdbcType=VARCHAR},
+        #{authorityDesc,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR},
+        #{classes,jdbcType=VARCHAR},
+        #{itemId,jdbcType=VARCHAR},
+        #{able,jdbcType=VARCHAR},
+        #{icon,jdbcType=VARCHAR},
+        #{sortNum,jdbcType=INTEGER},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysAuthority">
+        update
+        <include refid="Base_table_name"/>
+        parent_id = #{parentId,jdbcType=INTEGER},
+        type = #{type,jdbcType=VARCHAR},
+        authority_name = #{authorityName,jdbcType=VARCHAR},
+        authority_desc = #{authorityDesc,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR},
+        classes = #{classes,jdbcType=VARCHAR},
+        item_id = #{itemId,jdbcType=VARCHAR},
+        able = #{able,jdbcType=VARCHAR},
+        icon = #{icon,jdbcType=VARCHAR},
+        sort_num = #{sortNum,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=BIGINT},
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=BIGINT},
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR}
+        where authority_id = #{authorityId,jdbcType=INTEGER}
+    </update>
+
+
+    <!--查询集合（可按条件）-->
+    <select id="list" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select
+        a.authority_id, a.parent_id, a.type, a.authority_name, a.authority_desc, a.url, a.classes, a.item_id, a.able,
+        a.icon, a.sort_num,
+        a.create_time, a.create_user_id, a.update_time, a.update_user_id, a.status
+        from
+        <include refid="Base_table_name"/>
+        AS a
+        LEFT JOIN role_authority AS ra ON ra.authority_id = a.authority_id
+        where 1=1
+        <if test="roleId != null">
+            and ra.role_id = #{roleId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--查询分页（可按条件）-->
+    <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select
+        a.authority_id, a.parent_id, a.type, a.authority_name, a.authority_desc, a.url, a.classes, a.item_id, a.able,
+        a.icon, a.sort_num,
+        a.create_time, a.create_user_id, a.update_time, a.update_user_id, a.status
+        from
+        <include refid="Base_table_name"/>
+        AS a
+        LEFT JOIN role_authority AS ra ON ra.authority_id = a.authority_id
+        where 1=1
+        <if test="roleId != null">
+            and ra.role_id = #{roleId, jdbcType=INTEGER}
+        </if>
+        <if test="pageNum != null">
+            limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--按条件统计数量（可按条件）-->
+    <select id="countByParam" resultType="java.lang.Integer" parameterType="com.xcm.model.SysAuthority">
+        select COUNT(*) from
+        <include refid="Base_table_name"/>
+        where 1=1
+        <if test="parentId != null">
+            and parent_id = #{parentId, jdbcType=INTEGER}
+        </if>
+        <if test="authorityName != null">
+            and authority_name = #{authorityName, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--统计权限与角色关联的数量-->
+    <select id="countRoleAuthority" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select COUNT(*) from role_authority
+        where 1=1
+        <if test="authorityId != null">
+            and authority_id = #{authorityId, jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>

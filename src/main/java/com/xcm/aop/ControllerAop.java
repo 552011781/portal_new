@@ -1,6 +1,7 @@
 package com.xcm.aop;
 
-import com.xcm.model.JsonResponse;
+import com.xcm.model.response.JsonResponse;
+import com.xcm.model.response.JsonResponseBuilder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -8,9 +9,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 用于ajax请求
@@ -46,31 +44,22 @@ public class ControllerAop {
      */
     @Around("responseBodyDataToMap() || restControllerDataToMap()")
     public Object controllerAfter(ProceedingJoinPoint joinPoint) {
-        Map<String, Object> result = new HashMap<>();
         try {
             Object proceed = joinPoint.proceed();
+            if (proceed instanceof JsonResponse) {
+                return proceed;
+            }
             if (proceed instanceof Exception) {
                 Exception ex = (Exception) proceed;
-                result.put("code", 1);
-                result.put("msg", ex.getMessage());
-                result.put("data", null);
-            } else if (proceed instanceof JsonResponse) {
-                JsonResponse jsonResponse = (JsonResponse) proceed;
-                return jsonResponse;
-            } else {
-                result.put("code", 0);
-                result.put("msg", "操作成功");
-                result.put("data", proceed);
+                return JsonResponseBuilder.buildFail(ex.getMessage());
             }
-            return result;
+            return JsonResponseBuilder.buildSuccess(proceed);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
             logger.error("aop for controller transform data to json error", throwable);
-            result.put("code", -1);
-            result.put("msg", "系统错误，请联系管理员");
-            result.put("data", null);
-            return result;
+            JsonResponseBuilder.buildSysError(throwable.getMessage());
         }
+        return JsonResponseBuilder.buildNull();
     }
 
 }

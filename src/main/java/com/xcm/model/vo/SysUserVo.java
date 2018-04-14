@@ -56,6 +56,10 @@ public class SysUserVo implements Serializable {
      */
     private String telephone;
     /**
+     * 是否启用（1启用，0停用）
+     */
+    private String able;
+    /**
      * 创建时间
      */
     private Long createTime;
@@ -100,7 +104,7 @@ public class SysUserVo implements Serializable {
     public SysUserVo() {
     }
 
-    public SysUserVo(Integer userId, String departmentId, String userName, String password, String realName, String sex, String sexDesc, String post, String nation, String idCard, String email, String telephone, Long createTime, Integer createUserId, String createUserName, Long updateTime, Integer updateUserId, String updateUserName, String status, String departmentName, String roleId, String roleName) {
+    public SysUserVo(Integer userId, String departmentId, String userName, String password, String realName, String sex, String sexDesc, String post, String nation, String idCard, String email, String telephone, String able, Long createTime, Integer createUserId, String createUserName, Long updateTime, Integer updateUserId, String updateUserName, String status, String departmentName, String roleId, String roleName) {
         this.userId = userId;
         this.departmentId = departmentId;
         this.userName = userName;
@@ -113,6 +117,7 @@ public class SysUserVo implements Serializable {
         this.idCard = idCard;
         this.email = email;
         this.telephone = telephone;
+        this.able = able;
         this.createTime = createTime;
         this.createUserId = createUserId;
         this.createUserName = createUserName;
@@ -221,6 +226,14 @@ public class SysUserVo implements Serializable {
         this.telephone = telephone;
     }
 
+    public String getAble() {
+        return able;
+    }
+
+    public void setAble(String able) {
+        this.able = able;
+    }
+
     public Long getCreateTime() {
         return createTime;
     }
@@ -316,6 +329,7 @@ public class SysUserVo implements Serializable {
                 ", idCard='" + idCard + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
+                ", able='" + able + '\'' +
                 ", createTime=" + createTime +
                 ", createUserId=" + createUserId +
                 ", createUserName='" + createUserName + '\'' +

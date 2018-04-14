@@ -2,8 +2,8 @@ package com.xcm.controller;
 
 import com.xcm.constant.BaseConstant;
 import com.xcm.constant.business.SysDepartmentConstants;
-import com.xcm.exception.ControllerException;
 import com.xcm.model.SysDepartment;
+import com.xcm.model.response.JsonResponseBuilder;
 import com.xcm.model.vo.SysDepartmentVo;
 import com.xcm.service.SysDepartmentService;
 import com.xcm.util.CheckUtil;
@@ -36,15 +36,15 @@ public class SysDepartmentController extends BaseController {
     @RequestMapping("/saveDepartment")
     public Object saveDepartment(SysDepartment sysDepartment) {
         if (StringUtils.isBlank(sysDepartment.getDepartmentName())) {
-            return SysDepartmentConstants.DEPARTMENT_NAME_ERROR;
+            return JsonResponseBuilder.buildFail(SysDepartmentConstants.DEPARTMENT_NAME_ERROR);
         }
         try {
             sysDepartmentService.save(sysDepartment);
         } catch (Exception e) {
             logger.error("SysDepartmentController saveDepartment 新增部门失败：" + e.getMessage());
-            return new ControllerException(SysDepartmentConstants.SAVE_FAIL);
+            return JsonResponseBuilder.buildFail(SysDepartmentConstants.SAVE_FAIL);
         }
-        return SysDepartmentConstants.SAVE_SUCCESS;
+        return JsonResponseBuilder.buildSuccess(SysDepartmentConstants.SAVE_SUCCESS);
     }
 
     /**
@@ -56,20 +56,20 @@ public class SysDepartmentController extends BaseController {
     @RequestMapping("/updateDepartment")
     public Object updateDepartment(SysDepartment sysDepartment) {
         if (StringUtils.isBlank(sysDepartment.getDepartmentName())) {
-            return SysDepartmentConstants.DEPARTMENT_NAME_ERROR;
+            return JsonResponseBuilder.buildFail(SysDepartmentConstants.DEPARTMENT_NAME_ERROR);
         }
         try {
             //检查部门是否存在
             SysDepartment checkUniqueSysDepartment = sysDepartmentService.getByName(sysDepartment.getDepartmentName());
             if (null != checkUniqueSysDepartment) {
-                return SysDepartmentConstants.DEPARTMENT_EXITS;
+                return JsonResponseBuilder.buildFail(SysDepartmentConstants.DEPARTMENT_EXITS);
             }
             sysDepartmentService.update(sysDepartment);
         } catch (Exception e) {
             logger.error("SysDepartmentController updateDepartment 更新部门失败：" + e.getMessage());
-            return new ControllerException(SysDepartmentConstants.UPDATE_FAIL);
+            return JsonResponseBuilder.buildFail(SysDepartmentConstants.UPDATE_FAIL);
         }
-        return SysDepartmentConstants.UPDATE_SUCCESS;
+        return JsonResponseBuilder.buildSuccess(SysDepartmentConstants.UPDATE_SUCCESS);
     }
 
     /**
@@ -78,23 +78,23 @@ public class SysDepartmentController extends BaseController {
      * @param departmentId 部门主键
      * @return
      */
-    @RequestMapping("deleteDepartment")
+    @RequestMapping("/deleteDepartment")
     public Object deleteDepartment(Integer departmentId) {
         if (!CheckUtil.checkNumOk(departmentId)) {
-            return BaseConstant.MSG_PARAM_ERROR;
+            return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
         }
         try {
             //检查是否可删(如果存在子部门则不能删除)
             boolean canDelete = sysDepartmentService.canDelete(departmentId);
             if (!canDelete) {
-                return SysDepartmentConstants.DELETE_FAIL_HAS_RELATION;
+                return JsonResponseBuilder.buildFail(SysDepartmentConstants.DELETE_FAIL_HAS_RELATION);
             }
             sysDepartmentService.deleteById(departmentId);
         } catch (Exception e) {
             logger.error("SysDepartmentController deleteDepartment 删除部门失败：" + e.getMessage());
-            return new ControllerException(SysDepartmentConstants.DELETE_FAIL);
+            return JsonResponseBuilder.buildFail(SysDepartmentConstants.DELETE_FAIL);
         }
-        return SysDepartmentConstants.DELETE_SUCCESS;
+        return JsonResponseBuilder.buildSuccess(SysDepartmentConstants.DELETE_SUCCESS);
     }
 
     /**
@@ -103,34 +103,34 @@ public class SysDepartmentController extends BaseController {
      * @param departmentId 部门主键
      * @return
      */
-    @RequestMapping("getById")
+    @RequestMapping("/getById")
     public Object getById(Integer departmentId) {
         if (!CheckUtil.checkNumOk(departmentId)) {
-            return BaseConstant.MSG_PARAM_ERROR;
+            return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
         }
         try {
             SysDepartmentVo sysDepartmentVo = sysDepartmentService.getByIdVo(departmentId);
-            return sysDepartmentVo;
+            return JsonResponseBuilder.buildSuccess(sysDepartmentVo);
         } catch (Exception e) {
             logger.error("SysDepartmentController getById 根据id查询部门失败：" + e.getMessage());
-            return new ControllerException(BaseConstant.QUERY_FAIL);
+            return JsonResponseBuilder.buildFail(BaseConstant.QUERY_FAIL);
         }
     }
 
     /**
-     * 根据id查询部门
+     * 查询部门集合
      * 前端展示可通过parentId树形展示
      *
      * @return
      */
-    @RequestMapping("list")
+    @RequestMapping("/list")
     public Object list() {
         try {
             List<SysDepartmentVo> sysDepartmentVoList = sysDepartmentService.list(null);
-            return sysDepartmentVoList;
+            return JsonResponseBuilder.buildSuccess(sysDepartmentVoList);
         } catch (Exception e) {
             logger.error("SysDepartmentController getById 根据id查询部门失败：" + e.getMessage());
-            return new ControllerException(BaseConstant.QUERY_FAIL);
+            return JsonResponseBuilder.buildFail(BaseConstant.QUERY_FAIL);
         }
     }
 }

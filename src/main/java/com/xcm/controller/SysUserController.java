@@ -1,19 +1,22 @@
 package com.xcm.controller;
 
+import com.github.pagehelper.Page;
 import com.xcm.constant.BaseConstant;
 import com.xcm.constant.business.SysUserConstants;
 import com.xcm.exception.ControllerException;
 import com.xcm.model.SysUser;
+import com.xcm.model.response.JsonResponseBuilder;
 import com.xcm.model.vo.SysUserVo;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
-import com.xcm.validation.SysUserValidator;
+import com.xcm.validator.SysUserValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -41,26 +44,26 @@ public class SysUserController extends BaseController {
     @RequestMapping("/saveSysUser")
     @ResponseBody
     public Object saveSysUser(SysUser sysUser, String roleIds) {
-        String checkFormResult = SysUserValidator.validateSysUser(sysUser);
-        //用户表单验证,失败返回对应的提示语句
-        if (StringUtils.isNoneBlank(checkFormResult)) {
-            return checkFormResult;
-        }
-        if (StringUtils.isBlank(roleIds)) {
-            return SysUserConstants.VALIDATE_ROLE_ERROR;
-        }
         try {
+            String checkFormResult = SysUserValidator.validateSysUser(sysUser);
+            //用户表单验证,失败返回对应的提示语句
+            if (StringUtils.isNoneBlank(checkFormResult)) {
+                return JsonResponseBuilder.buildFail(checkFormResult);
+            }
+            if (StringUtils.isBlank(roleIds)) {
+                return JsonResponseBuilder.buildFail(SysUserConstants.VALIDATE_ROLE_ERROR);
+            }
             //检查用户是否存在
             SysUser checkUniqueUser = sysUserService.getByUsername(sysUser.getUserName());
             if (null != checkUniqueUser) {
-                return SysUserConstants.VALIDATE_USER_EXITS;
+                return JsonResponseBuilder.buildFail(SysUserConstants.VALIDATE_USER_EXITS);
             }
             sysUserService.save(sysUser, roleIds);
         } catch (Exception e) {
             logger.error("SysUserController saveSysUser 新增用户失败：" + e.getMessage());
             return new ControllerException(SysUserConstants.SAVE_FAIL);
         }
-        return SysUserConstants.SAVE_SUCCESS;
+        return JsonResponseBuilder.buildFail(SysUserConstants.SAVE_SUCCESS);
     }
 
     /**
@@ -70,6 +73,7 @@ public class SysUserController extends BaseController {
      * @return
      */
     @RequestMapping("/getById")
+    @ResponseBody
     public Object getById(Integer userId) {
         if (!CheckUtil.checkNumOk(userId)) {
             return BaseConstant.MSG_PARAM_ERROR;
@@ -78,32 +82,111 @@ public class SysUserController extends BaseController {
         try {
             sysUserVo = sysUserService.getByIdVo(userId);
             if (null == sysUserVo) {
-                return SysUserConstants.VALIDATE_USER_NOT_EXITS;
+                return JsonResponseBuilder.buildFail(SysUserConstants.VALIDATE_USER_NOT_EXITS);
             }
         } catch (Exception e) {
             logger.error("SysUserController getById 根据id查询用户失败：" + e.getMessage());
-            return new ControllerException(SysUserConstants.GET_FAIL);
+            return JsonResponseBuilder.buildFail(SysUserConstants.GET_FAIL);
         }
-        return sysUserVo;
+        return JsonResponseBuilder.buildFail(sysUserVo);
     }
 
     /**
-     * 查询用户集合
+     * 用户分页查询(可查询某角色下用户，可查询某部门下用户)
      *
+     * @param departmentId 部门id
+     * @param roleId       角色id
+     * @param search       搜索的条件(姓名/手机/邮箱，模糊匹配其中任意一项)
+     * @param pageNum      第几页
+     * @param pageSize     每页几条
      * @return
      */
-    @RequestMapping("list")
-    public Object list(Integer departmentId) {
+    @RequestMapping("/listPage")
+    @ResponseBody
+    public Object listPage(Integer departmentId, Integer roleId, String search,
+                           @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
+                           @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
         try {
             Map<String, String> paramMap = new HashMap<>();
             if (CheckUtil.checkNumOk(departmentId)) {
                 paramMap.put("departmentId", departmentId.toString());
             }
-            List<SysUserVo> sysUserVoList = sysUserService.list(paramMap);
-            return sysUserVoList;
+            if (CheckUtil.checkNumOk(roleId)) {
+                paramMap.put("roleId", roleId.toString());
+            }
+            if (StringUtils.isNotBlank(search)) {
+                paramMap.put("search", search);
+            }
+            Page<SysUserVo> sysUserVoPage = sysUserService.listPage(paramMap, pageNum, pageSize);
+            return JsonResponseBuilder.buildSuccess(sysUserVoPage);
         } catch (Exception e) {
-            logger.error("SysDepartmentController getById 查询用户集合失败：" + e.getMessage());
-            return new ControllerException(BaseConstant.QUERY_FAIL);
+            logger.error("SysUserController listPage 用户分页查询失败：" + e.getMessage());
+            return JsonResponseBuilder.buildFail(BaseConstant.QUERY_FAIL);
+        }
+    }
+
+    /**
+     * 用户集合查询
+     *
+     * @param realName 真实姓名 模糊匹配
+     * @return
+     */
+    @RequestMapping("/list")
+    @ResponseBody
+    public Object list(String realName) {
+        try {
+            Map<String, String> paramMap = new HashMap<>();
+            if (StringUtils.isNotBlank(realName)) {
+                paramMap.put("realName", realName);
+            }
+            List<SysUserVo> sysUserVoList = sysUserService.list(paramMap);
+            return JsonResponseBuilder.buildSuccess(sysUserVoList);
+        } catch (Exception e) {
+            logger.error("SysUserController list 用户集合查询失败：" + e.getMessage());
+            return JsonResponseBuilder.buildFail(BaseConstant.QUERY_FAIL);
+        }
+    }
+
+    /**
+     * 用户启用
+     *
+     * @param userId 用户id
+     * @return
+     */
+    @RequestMapping("/enable")
+    @ResponseBody
+    public Object enable(Integer userId) {
+        try {
+            if (!CheckUtil.checkNumOk(userId)) {
+                return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
+            }
+            sysUserService.setEnbleOrDisable(userId, SysUserConstants.STATUS_ENABLE);
+            return JsonResponseBuilder.buildSuccess(SysUserConstants.ENABLE_SUCCESS);
+        } catch (Exception e) {
+            logger.error("SysUserController enable 用户启用失败：" + e.getMessage());
+            return JsonResponseBuilder.buildFail(SysUserConstants.ENABLE_FAIL);
+        }
+    }
+
+
+    /**
+     * 用户停用
+     *
+     * @param userId 用户id
+     * @return
+     */
+    @RequestMapping("/disable")
+    @ResponseBody
+    public Object disable(Integer userId) {
+        try {
+            if (!CheckUtil.checkNumOk(userId)) {
+                return BaseConstant.MSG_PARAM_ERROR;
+            }
+            sysUserService.setEnbleOrDisable(userId, SysUserConstants.STATUS_DISABLE);
+            return JsonResponseBuilder.buildSuccess(SysUserConstants.DISABLE_SUCCESS);
+        } catch (Exception e) {
+            logger.error("SysUserController disable 用户停用失败：" + e.getMessage());
+            return JsonResponseBuilder.buildFail(SysUserConstants.DISABLE_FAIL);
         }
     }
 }

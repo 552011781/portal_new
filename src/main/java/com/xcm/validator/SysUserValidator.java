@@ -1,4 +1,4 @@
-package com.xcm.validation;
+package com.xcm.validator;
 
 import com.xcm.constant.business.SysUserConstants;
 import com.xcm.model.SysUser;
@@ -102,22 +102,22 @@ public class SysUserValidator {
         if (null == sysUser) {
             return SysUserConstants.VALIDATE_NO_SYS_USER;
         }
-        if (!isUsername(sysUser.getUserName())) {
+        if (null == sysUser.getUserName() || !isUsername(sysUser.getUserName())) {
             return SysUserConstants.VALIDATE_USERNAME_ERROR;
         }
-        if (!isPassword(sysUser.getPassword())) {
+        if (null == sysUser.getPassword() || !isPassword(sysUser.getPassword())) {
             return SysUserConstants.VALIDATE_PASSWORD_ERROR;
         }
-        if (StringUtils.isBlank(sysUser.getDepartmentId())) {
+        if (null == sysUser.getDepartmentId() || StringUtils.isBlank(sysUser.getDepartmentId())) {
             return SysUserConstants.VALIDATE_DEPARTMENT_ERROR;
         }
-        if (StringUtils.isNoneBlank(sysUser.getIdCard()) && !IdcardUtils.isIDCard(sysUser.getIdCard())) {
+        if (StringUtils.isNotBlank(sysUser.getIdCard()) && !IdcardUtils.isIDCard(sysUser.getIdCard())) {
             return SysUserConstants.VALIDATE_ID_CARD_ERROR;
         }
-        if (StringUtils.isNoneBlank(sysUser.getEmail()) && !isEmail(sysUser.getEmail())) {
+        if (StringUtils.isNotBlank(sysUser.getEmail()) && !isEmail(sysUser.getEmail())) {
             return SysUserConstants.VALIDATE_EMAIL_ERROR;
         }
-        if (StringUtils.isNoneBlank(sysUser.getTelephone()) && !isMobile(sysUser.getTelephone())) {
+        if (StringUtils.isNotBlank(sysUser.getTelephone()) && !isMobile(sysUser.getTelephone())) {
             return SysUserConstants.VALIDATE_TELEPHONE_ERROR;
         }
         return "";

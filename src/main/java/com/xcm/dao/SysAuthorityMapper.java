@@ -1,5 +1,6 @@
 package com.xcm.dao;
 
+import com.github.pagehelper.Page;
 import com.xcm.model.SysAuthority;
 
 import java.util.List;
@@ -17,4 +18,28 @@ public interface SysAuthorityMapper extends BaseMapper<SysAuthority> {
      * @return
      */
     List<SysAuthority> list(Map<String, String> paramMap);
+
+    /**
+     * 查询集合
+     *
+     * @param paramMap 参数map
+     * @return
+     */
+    Page<SysAuthority> listPage(Map<String, String> paramMap);
+
+    /**
+     * 根据参数统计数量
+     *
+     * @param sysAuthority
+     * @return
+     */
+    int countByParam(SysAuthority sysAuthority);
+
+    /**
+     * 统计权限关联的角色数量
+     *
+     * @param authorityId 权限id
+     * @return
+     */
+    int countRoleAuthority(Integer authorityId);
 }

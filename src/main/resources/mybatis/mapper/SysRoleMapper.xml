@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.xcm.model.SysRole">
+        <id column="role_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_desc" property="roleDesc" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_table_name">
+		sys_role
+    </sql>
+
+    <sql id="Base_Column_List">
+		role_id, role_name, role_desc,
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <sql id="Base_Column_List_no_id">
+		role_name, role_desc,
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where role_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+        <include refid="Base_table_name"/>
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--新增不返回主键-->
+    <insert id="save" parameterType="com.xcm.model.SysRole">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List"/>)
+        values (
+        #{roleId,jdbcType=INTEGER},
+        #{roleName,jdbcType=VARCHAR},
+        #{roleDesc,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--新增并返回主键-->
+    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="RoleId" keyColumn="Role_id"
+            parameterType="com.xcm.model.SysRole">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List_no_id"/>)
+        values (
+        #{roleName,jdbcType=VARCHAR},
+        #{roleDesc,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysRole">
+        update
+        <include refid="Base_table_name"/>
+        role_name = #{roleName,jdbcType=VARCHAR},
+        role_desc = #{roleDesc,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=BIGINT},
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=BIGINT},
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR}
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </update>
+
+
+    <!--查询集合（可按条件）-->
+    <select id="list" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where 1=1
+        <if test="roleName != null">
+            and role_name = #{roleName, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--查询分页（可按条件）-->
+    <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where 1=1
+        <if test="roleName != null">
+            and role_name = #{roleName, jdbcType=VARCHAR}
+        </if>
+        <if test="pageNum != null">
+            limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--删除角色下所有权限-->
+    <delete id="deleteOldAuthority" parameterType="java.lang.Integer">
+        delete from
+        role_authority
+        where role_id = #{roleId,jdbcType=INTEGER}
+    </delete>
+
+    <!--给角色绑定权限-->
+    <insert id="authorizeRoleWithAuthority" parameterType="java.util.List">
+        INSERT INTO role_authority(role_id,authority_id)
+        <foreach collection="roleAuthorityList" item="item" separator=",">
+            (#{item.roleId},#{item.authorityId})
+        </foreach>
+    </insert>
+
+    <!--给角色绑定用户-->
+    <insert id="saveUserForRole" parameterType="java.util.List">
+        INSERT INTO user_role(user_id,role_id)
+        <foreach collection="userRoleList" item="item" separator=",">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
+    <!--统计角色与权限、用户关联的数量-->
+    <select id="countRoleRelationWithRoleAndUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM role_authority ra, user_role ur
+        WHERE 1=1
+        <if test="roleId != null">
+            and ra.role_id = #{roleId, jdbcType=INTEGER} OR ur.role_id = #{roleId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--统计角色用户关联的数量-->
+    <select id="countRoleRelationWithUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM user_role
+        WHERE 1=1
+        <if test="roleId != null">
+            and role_id = #{roleId, jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId, jdbcType=INTEGER}
+        </if>
+    </select>
+</mapper>

@@ -3,7 +3,7 @@ package com.xcm.dao;
 import com.github.pagehelper.Page;
 import com.xcm.model.SysUser;
 import com.xcm.model.vo.SysUserVo;
-import com.xcm.model.vo.UserRoleVo;
+import com.xcm.model.UserRole;
 
 import java.util.List;
 import java.util.Map;
@@ -33,11 +33,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * 用户列表分页
      *
      * @param paramMap 参数
-     * @param pageNum  第几页
-     * @param pageSize 每页几条
      * @return
      */
-    Page<SysUserVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysUserVo> listPage(Map<String, String> paramMap);
 
     /**
      * 根据用户名查询用户
@@ -50,9 +48,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 给用户授权
      *
-     * @param userRoleVoList
+     * @param userRoleList
      */
-    void authorizeUserWithRoles(List<UserRoleVo> userRoleVoList);
+    void authorizeUserWithRoles(List<UserRole> userRoleList);
 
     /**
      * 根据用户id查询VO
@@ -76,4 +74,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return
      */
     List<SysUserVo> list(Map<String, String> paramMap);
+
+    /**
+     * 听启用用户
+     *
+     * @param userId 用户id
+     * @param able   启用状态（1启用，0停用）
+     */
+    void setAble(Integer userId, String able);
 }

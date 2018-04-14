@@ -1,4 +1,4 @@
-package com.xcm.model;
+package com.xcm.model.response;
 
 /**
  * JSON格式相应类
@@ -16,7 +16,16 @@ public class JsonResponse {
     /**
      * 业务数据
      */
-    private String data;
+    private Object data;
+
+    public JsonResponse() {
+    }
+
+    public JsonResponse(String code, String msg, Object data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
+    }
 
     public String getCode() {
         return code;
@@ -34,29 +43,11 @@ public class JsonResponse {
         this.msg = msg;
     }
 
-    public String getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Object data) {
         this.data = data;
-    }
-
-    public JsonResponse() {
-    }
-
-    public JsonResponse(String code, String msg, String data) {
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
-
-    @Override
-    public String toString() {
-        return "JsonResponse{" +
-                "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
-                ", data='" + data + '\'' +
-                '}';
     }
 }

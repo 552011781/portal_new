@@ -16,11 +16,15 @@ public class BaseConstant {
     /**
      * 提示码-成功
      */
-    public static final int CODE_SUCCESS = 0;
+    public static final String CODE_SUCCESS = "0";
     /**
-     * 提示码-错误
+     * 提示码-失败
      */
-    public static final int CODE_FAIL = 1;
+    public static final String CODE_FAIL = "1";
+    /**
+     * 提示码-系统异常
+     */
+    public static final String CODE_SYS_ERROR = "-1";
     /**
      * 提示信息
      */
@@ -37,6 +41,10 @@ public class BaseConstant {
      * 提示信息-参数错误
      */
     public static final String MSG_PARAM_ERROR = "参数错误";
+    /**
+     * 提示信息-参数错误
+     */
+    public static final String MSG_SYS_ERROR = "系统错误，请联系管理员";
     /**
      * 提示信息-查询成功
      */

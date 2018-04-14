@@ -1,10 +1,10 @@
-package com.xcm.model.vo;
+package com.xcm.model;
 
 /**
  * 用户角色关联表
  * created by lq at 2018-04-13 10:24
  **/
-public class UserRoleVo {
+public class UserRole {
     /**
      * 用户id
      */
@@ -14,10 +14,10 @@ public class UserRoleVo {
      */
     private Integer roleId;
 
-    public UserRoleVo() {
+    public UserRole() {
     }
 
-    public UserRoleVo(Integer userId, Integer roleId) {
+    public UserRole(Integer userId, Integer roleId) {
         this.userId = userId;
         this.roleId = roleId;
     }
@@ -40,7 +40,7 @@ public class UserRoleVo {
 
     @Override
     public String toString() {
-        return "UserRoleVo{" +
+        return "UserRole{" +
                 "userId=" + userId +
                 ", roleId=" + roleId +
                 '}';
