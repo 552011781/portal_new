@@ -10,7 +10,7 @@ public class SysRole implements Serializable {
     /**
      * 角色主键
      */
-    private String roleId;
+    private Integer roleId;
     /**
      * 角色名称
      */
@@ -26,7 +26,7 @@ public class SysRole implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 更新时间
      */
@@ -34,17 +34,31 @@ public class SysRole implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 状态（1：正常；0：逻辑删除）
      */
     private String status;
 
-    public String getRoleId() {
+    public SysRole() {
+    }
+
+    public SysRole(Integer roleId, String roleName, String roleDesc, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleDesc = roleDesc;
+        this.createTime = createTime;
+        this.createUserId = createUserId;
+        this.updateTime = updateTime;
+        this.updateUserId = updateUserId;
+        this.status = status;
+    }
+
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
@@ -72,11 +86,11 @@ public class SysRole implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -88,11 +102,11 @@ public class SysRole implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -104,30 +118,16 @@ public class SysRole implements Serializable {
         this.status = status;
     }
 
-    public SysRole() {
-    }
-
-    public SysRole(String roleId, String roleName, String roleDesc, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
-        this.roleId = roleId;
-        this.roleName = roleName;
-        this.roleDesc = roleDesc;
-        this.createTime = createTime;
-        this.createUserId = createUserId;
-        this.updateTime = updateTime;
-        this.updateUserId = updateUserId;
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "SysRole{" +
-                "roleId='" + roleId + '\'' +
+                "roleId=" + roleId +
                 ", roleName='" + roleName + '\'' +
                 ", roleDesc='" + roleDesc + '\'' +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", status='" + status + '\'' +
                 '}';
     }

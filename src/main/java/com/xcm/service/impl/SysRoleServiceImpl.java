@@ -34,9 +34,9 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<SysRole> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public Page<SysRole> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return sysRoleMapper.page(paramMap, pageNum, pageSize);
+        return sysRoleMapper.listPage(paramMap, pageNum, pageSize);
     }
 
     /**
@@ -60,7 +60,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         sysRoleMapper.deleteById(id);
     }
 
@@ -86,7 +86,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Transactional(readOnly = true)
     @Override
-    public SysRole getById(String id) {
+    public SysRole getById(Integer id) {
         return sysRoleMapper.getById(id);
     }
 }

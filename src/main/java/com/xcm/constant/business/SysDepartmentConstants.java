@@ -9,7 +9,9 @@ public class SysDepartmentConstants {
     public static final String SAVE_FAIL = "新增部门失败";
     public static final String DELETE_SUCCESS = "删除部门成功";
     public static final String DELETE_FAIL = "删除部门失败";
+    public static final String DELETE_FAIL_HAS_RELATION = "删除部门失败，请先删除子部门";
     public static final String UPDATE_SUCCESS = "更新部门成功";
     public static final String UPDATE_FAIL = "更新部门失败";
-    public static final String PARAM_SYS_BUTTON_ID_NOT_NULL = "参数部门id不能为空";
+    public static final String DEPARTMENT_NAME_ERROR = "部门名称错误";
+    public static final String DEPARTMENT_EXITS = "部门已存在";
 }

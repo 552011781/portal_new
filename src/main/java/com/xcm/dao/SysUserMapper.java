@@ -3,7 +3,9 @@ package com.xcm.dao;
 import com.github.pagehelper.Page;
 import com.xcm.model.SysUser;
 import com.xcm.model.vo.SysUserVo;
+import com.xcm.model.vo.UserRoleVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,5 +37,43 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysUserVo> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysUserVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据用户名查询用户
+     *
+     * @param userName 用户名
+     * @return
+     */
+    SysUser getByUsername(String userName);
+
+    /**
+     * 给用户授权
+     *
+     * @param userRoleVoList
+     */
+    void authorizeUserWithRoles(List<UserRoleVo> userRoleVoList);
+
+    /**
+     * 根据用户id查询VO
+     *
+     * @param userId
+     * @return
+     */
+    SysUserVo getByIdVo(Integer userId);
+
+    /**
+     * 清除用户之前的角色
+     *
+     * @param userId 用户id
+     */
+    void removeOldRole(Integer userId);
+
+    /**
+     * 查询集合
+     *
+     * @param paramMap 参数map
+     * @return
+     */
+    List<SysUserVo> list(Map<String, String> paramMap);
 }

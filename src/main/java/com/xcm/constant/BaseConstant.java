@@ -2,6 +2,14 @@ package com.xcm.constant;
 
 public class BaseConstant {
     /**
+     * 逗号-英文
+     */
+    public static final String COMMA_EN = ",";
+    /**
+     * 逗号-中文
+     */
+    public static final String COMMA_ZH = "，";
+    /**
      * 编码
      */
     public static final String CODE = "code";
@@ -26,9 +34,9 @@ public class BaseConstant {
      */
     public static final String MSG_ERROR = "操作失败";
     /**
-     * 提示信息-操作失败,参数错误
+     * 提示信息-参数错误
      */
-    public static final String MSG_PARAM_ERROR = "操作失败,参数错误";
+    public static final String MSG_PARAM_ERROR = "参数错误";
     /**
      * 提示信息-查询成功
      */

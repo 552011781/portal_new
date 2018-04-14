@@ -10,11 +10,11 @@ public class SysDepartment implements Serializable {
     /**
      * 部门主键
      */
-    private String departmentId;
+    private Integer departmentId;
     /**
      * 父部门主键
      */
-    private String parentId;
+    private Integer parentId;
     /**
      * 部门名称
      */
@@ -30,7 +30,7 @@ public class SysDepartment implements Serializable {
     /**
      * 排序号
      */
-    private String sortcode;
+    private String sortCode;
     /**
      * 是否启用（1启用，0停用）
      */
@@ -42,7 +42,7 @@ public class SysDepartment implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 更新时间
      */
@@ -50,25 +50,25 @@ public class SysDepartment implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 状态（1：正常；0：逻辑删除）
      */
     private String status;
 
-    public String getDepartmentId() {
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -96,12 +96,12 @@ public class SysDepartment implements Serializable {
         this.description = description;
     }
 
-    public String getSortcode() {
-        return sortcode;
+    public String getSortCode() {
+        return sortCode;
     }
 
-    public void setSortcode(String sortcode) {
-        this.sortcode = sortcode;
+    public void setSortCode(String sortCode) {
+        this.sortCode = sortCode;
     }
 
     public String getAble() {
@@ -120,11 +120,11 @@ public class SysDepartment implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -136,11 +136,11 @@ public class SysDepartment implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -155,13 +155,13 @@ public class SysDepartment implements Serializable {
     public SysDepartment() {
     }
 
-    public SysDepartment(String departmentId, String parentId, String departmentName, String departmentCode, String description, String sortcode, String able, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
+    public SysDepartment(Integer departmentId, Integer parentId, String departmentName, String departmentCode, String description, String sortCode, String able, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
         this.departmentId = departmentId;
         this.parentId = parentId;
         this.departmentName = departmentName;
         this.departmentCode = departmentCode;
         this.description = description;
-        this.sortcode = sortcode;
+        this.sortCode = sortCode;
         this.able = able;
         this.createTime = createTime;
         this.createUserId = createUserId;
@@ -173,17 +173,17 @@ public class SysDepartment implements Serializable {
     @Override
     public String toString() {
         return "SysDepartment{" +
-                "departmentId='" + departmentId + '\'' +
-                ", parentId='" + parentId + '\'' +
+                "departmentId=" + departmentId +
+                ", parentId=" + parentId +
                 ", departmentName='" + departmentName + '\'' +
                 ", departmentCode='" + departmentCode + '\'' +
                 ", description='" + description + '\'' +
-                ", sortcode='" + sortcode + '\'' +
-                ", able='" + able + '\'' +
+                ", sortCode='" + sortCode + '\'' +
+                ", able=" + able +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", status='" + status + '\'' +
                 '}';
     }

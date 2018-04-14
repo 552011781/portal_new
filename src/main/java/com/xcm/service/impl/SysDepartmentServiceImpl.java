@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,6 +37,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
         SysUser currentUser = (SysUser) redisCacheDao.getCache(CacheSysUserConstant.USER, CacheSysUserConstant.CURRENT_USER);
         sysDepartment.setCreateTime(System.currentTimeMillis());
         sysDepartment.setCreateUserId(currentUser.getUserId());
+        sysDepartment.setAble("1");
         sysDepartmentMapper.save(sysDepartment);
     }
 
@@ -46,7 +48,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         sysDepartmentMapper.deleteById(id);
     }
 
@@ -70,15 +72,53 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @param id 主键
      * @return
      */
-    @Transactional(readOnly = true)
     @Override
-    public SysDepartment getById(String id) {
+    public SysDepartmentVo getByIdVo(Integer id) {
+        return sysDepartmentMapper.getByIdVo(id);
+    }
+
+    /**
+     * 根据名称查询
+     *
+     * @param departmentName 部门名称
+     * @return
+     */
+    @Override
+    public SysDepartment getByName(String departmentName) {
+        return sysDepartmentMapper.getByName(departmentName);
+    }
+
+    @Override
+    public boolean canDelete(Integer departmentId) {
+        Integer count = sysDepartmentMapper.countByParentId(departmentId);
+        return count == 0;
+    }
+
+    /**
+     * 根据id查询
+     *
+     * @param id 主键
+     * @return
+     */
+    @Override
+    public SysDepartment getById(Integer id) {
         return sysDepartmentMapper.getById(id);
     }
 
     @Override
-    public Page<SysDepartmentVo> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        return sysDepartmentMapper.page(null, pageNum, pageSize);
+        return sysDepartmentMapper.listPage(null, pageNum, pageSize);
+    }
+
+    /**
+     * 查询集合
+     *
+     * @param paramMap 参数map
+     * @return
+     */
+    @Override
+    public List<SysDepartmentVo> list(Map<String, String> paramMap) {
+        return sysDepartmentMapper.list(paramMap);
     }
 }

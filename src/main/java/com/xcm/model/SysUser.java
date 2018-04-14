@@ -10,9 +10,9 @@ public class SysUser implements Serializable {
     /**
      * 用户主键
      */
-    private String userId;
+    private Integer userId;
     /**
-     * 部门主键
+     * 部门主键(多个以英文逗号隔开)
      */
     private String departmentId;
     /**
@@ -27,6 +27,18 @@ public class SysUser implements Serializable {
      * 真实姓名
      */
     private String realName;
+    /**
+     * 性别（1:男，0:女）
+     */
+    private String sex;
+    /**
+     * 岗位
+     */
+    private String post;
+    /**
+     * 民族
+     */
+    private String nation;
     /**
      * 身份号
      */
@@ -50,7 +62,7 @@ public class SysUser implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 更新时间
      */
@@ -58,17 +70,40 @@ public class SysUser implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 状态（1：正常；0：逻辑删除）
      */
     private String status;
 
-    public String getUserId() {
+    public SysUser() {
+    }
+
+    public SysUser(Integer userId, String departmentId, String userName, String password, String realName, String sex, String post, String nation, String idCard, String email, String telephone, String able, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+        this.userId = userId;
+        this.departmentId = departmentId;
+        this.userName = userName;
+        this.password = password;
+        this.realName = realName;
+        this.sex = sex;
+        this.post = post;
+        this.nation = nation;
+        this.idCard = idCard;
+        this.email = email;
+        this.telephone = telephone;
+        this.able = able;
+        this.createTime = createTime;
+        this.createUserId = createUserId;
+        this.updateTime = updateTime;
+        this.updateUserId = updateUserId;
+        this.status = status;
+    }
+
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -102,6 +137,30 @@ public class SysUser implements Serializable {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
     }
 
     public String getIdCard() {
@@ -144,11 +203,11 @@ public class SysUser implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -160,11 +219,11 @@ public class SysUser implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -176,42 +235,25 @@ public class SysUser implements Serializable {
         this.status = status;
     }
 
-    public SysUser() {
-    }
-
-    public SysUser(String userId, String departmentId, String userName, String password, String realName, String idCard, String email, String telephone, String able, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
-        this.userId = userId;
-        this.departmentId = departmentId;
-        this.userName = userName;
-        this.password = password;
-        this.realName = realName;
-        this.idCard = idCard;
-        this.email = email;
-        this.telephone = telephone;
-        this.able = able;
-        this.createTime = createTime;
-        this.createUserId = createUserId;
-        this.updateTime = updateTime;
-        this.updateUserId = updateUserId;
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "SysUser{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", departmentId='" + departmentId + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", post='" + post + '\'' +
+                ", nation='" + nation + '\'' +
                 ", idCard='" + idCard + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", able='" + able + '\'' +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", status='" + status + '\'' +
                 '}';
     }

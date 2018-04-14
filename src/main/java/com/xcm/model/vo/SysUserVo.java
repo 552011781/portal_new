@@ -10,14 +10,11 @@ public class SysUserVo implements Serializable {
     /**
      * 用户主键
      */
-    private String userId;
+    private Integer userId;
     /**
-     * 部门主键
+     * 部门主键(多个以英文逗号隔开)
      */
     private String departmentId;
-    /**部门名称*/
-    ;
-    private String departmentName;
     /**
      * 用户名
      */
@@ -30,6 +27,26 @@ public class SysUserVo implements Serializable {
      * 真实姓名
      */
     private String realName;
+    /**
+     * 性别（1:男，0:女）
+     */
+    private String sex;
+    /**
+     * 性别（汉子）
+     */
+    private String sexDesc;
+    /**
+     * 岗位
+     */
+    private String post;
+    /**
+     * 民族
+     */
+    private String nation;
+    /**
+     * 身份号
+     */
+    private String idCard;
     /**
      * 邮箱
      */
@@ -45,7 +62,7 @@ public class SysUserVo implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 创建者姓名
      */
@@ -57,7 +74,7 @@ public class SysUserVo implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 更新者姓名
      */
@@ -67,16 +84,33 @@ public class SysUserVo implements Serializable {
      */
     private String status;
 
+    /**
+     * 部门名称(多个以英文逗号隔开)
+     */
+    private String departmentName;
+    /**
+     * 角色id(多个以英文逗号隔开)
+     */
+    private String roleId;
+    /**
+     * 角色名称(多个以英文逗号隔开)
+     */
+    private String roleName;
+
     public SysUserVo() {
     }
 
-    public SysUserVo(String userId, String departmentId, String departmentName, String userName, String password, String realName, String email, String telephone, Long createTime, String createUserId, String createUserName, Long updateTime, String updateUserId, String updateUserName, String status) {
+    public SysUserVo(Integer userId, String departmentId, String userName, String password, String realName, String sex, String sexDesc, String post, String nation, String idCard, String email, String telephone, Long createTime, Integer createUserId, String createUserName, Long updateTime, Integer updateUserId, String updateUserName, String status, String departmentName, String roleId, String roleName) {
         this.userId = userId;
         this.departmentId = departmentId;
-        this.departmentName = departmentName;
         this.userName = userName;
         this.password = password;
         this.realName = realName;
+        this.sex = sex;
+        this.sexDesc = sexDesc;
+        this.post = post;
+        this.nation = nation;
+        this.idCard = idCard;
         this.email = email;
         this.telephone = telephone;
         this.createTime = createTime;
@@ -86,13 +120,16 @@ public class SysUserVo implements Serializable {
         this.updateUserId = updateUserId;
         this.updateUserName = updateUserName;
         this.status = status;
+        this.departmentName = departmentName;
+        this.roleId = roleId;
+        this.roleName = roleName;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -102,14 +139,6 @@ public class SysUserVo implements Serializable {
 
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
-    }
-
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
     }
 
     public String getUserName() {
@@ -136,6 +165,46 @@ public class SysUserVo implements Serializable {
         this.realName = realName;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getSexDesc() {
+        return sexDesc;
+    }
+
+    public void setSexDesc(String sexDesc) {
+        this.sexDesc = sexDesc;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -160,11 +229,11 @@ public class SysUserVo implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -184,11 +253,11 @@ public class SysUserVo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -208,24 +277,55 @@ public class SysUserVo implements Serializable {
         this.status = status;
     }
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     @Override
     public String toString() {
         return "SysUserVo{" +
-                "userId='" + userId + '\'' +
+                "userId=" + userId +
                 ", departmentId='" + departmentId + '\'' +
-                ", departmentName='" + departmentName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
+                ", sex='" + sex + '\'' +
+                ", sexDesc='" + sexDesc + '\'' +
+                ", post='" + post + '\'' +
+                ", nation='" + nation + '\'' +
+                ", idCard='" + idCard + '\'' +
                 ", email='" + email + '\'' +
                 ", telephone='" + telephone + '\'' +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", createUserName='" + createUserName + '\'' +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", updateUserName='" + updateUserName + '\'' +
                 ", status='" + status + '\'' +
+                ", departmentName='" + departmentName + '\'' +
+                ", roleId='" + roleId + '\'' +
+                ", roleName='" + roleName + '\'' +
                 '}';
     }
 }

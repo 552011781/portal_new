@@ -1,5 +1,6 @@
 package com.xcm.aop;
 
+import com.xcm.model.JsonResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,12 +15,12 @@ import java.util.Map;
 /**
  * 用于ajax请求
  * 返回参数json格式的动态增强
- *
  */
 @Aspect
 @Component
 public class ControllerAop {
     private final static Logger logger = LoggerFactory.getLogger(ControllerAop.class);
+
     /**
      * 相应json返回格式切点,返回格式增强
      * 该切点只会拦截有ResponseBody注解的方法
@@ -37,13 +38,14 @@ public class ControllerAop {
     }
 
     @Pointcut("execution(public * com.xcm.controller..*.report(..))")
-    public void report(){}
+    public void report() {
+    }
+
     /**
      * controller 返回json格式的动态增强,转换为map
-     *
      */
     @Around("responseBodyDataToMap() || restControllerDataToMap()")
-    public Object controllerAfter (ProceedingJoinPoint joinPoint) {
+    public Object controllerAfter(ProceedingJoinPoint joinPoint) {
         Map<String, Object> result = new HashMap<>();
         try {
             Object proceed = joinPoint.proceed();
@@ -52,6 +54,9 @@ public class ControllerAop {
                 result.put("code", 1);
                 result.put("msg", ex.getMessage());
                 result.put("data", null);
+            } else if (proceed instanceof JsonResponse) {
+                JsonResponse jsonResponse = (JsonResponse) proceed;
+                return jsonResponse;
             } else {
                 result.put("code", 0);
                 result.put("msg", "操作成功");
@@ -62,8 +67,8 @@ public class ControllerAop {
             throwable.printStackTrace();
             logger.error("aop for controller transform data to json error", throwable);
             result.put("code", -1);
-            result.put("msg","系统错误，请联系管理员");
-            result.put("data",null);
+            result.put("msg", "系统错误，请联系管理员");
+            result.put("data", null);
             return result;
         }
     }

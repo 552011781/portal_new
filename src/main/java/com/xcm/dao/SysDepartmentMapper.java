@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.xcm.model.SysDepartment;
 import com.xcm.model.vo.SysDepartmentVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +21,37 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysDepartmentVo> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+
+    /**
+     * 查询集合
+     *
+     * @param paramMap 参数map
+     * @return
+     */
+    List<SysDepartmentVo> list(Map<String, String> paramMap);
+
+    /**
+     * 根据id查询
+     *
+     * @param id 部门id
+     * @return
+     */
+    SysDepartmentVo getByIdVo(Integer id);
+
+    /**
+     * 根据名称查询
+     *
+     * @param departmentName 部门名称
+     * @return
+     */
+    SysDepartment getByName(String departmentName);
+
+    /**
+     * 根据父id统计子部门数量
+     *
+     * @param departmentId
+     * @return
+     */
+    Integer countByParentId(Integer departmentId);
 }

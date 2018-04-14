@@ -10,11 +10,11 @@ public class SysAuthority implements Serializable {
     /**
      * 权限id
      */
-    private String authorityId;
+    private Integer authorityId;
     /**
      * 父权限id
      */
-    private String parentId;
+    private Integer parentId;
     /**
      * 类型（1系统，2菜单，3按钮）
      */
@@ -58,7 +58,7 @@ public class SysAuthority implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 更新时间
      */
@@ -66,25 +66,47 @@ public class SysAuthority implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 状态（1：正常；0：逻辑删除）
      */
     private String status;
 
-    public String getAuthorityId() {
+    public SysAuthority() {
+    }
+
+    public SysAuthority(Integer authorityId, Integer parentId, String type, String authorityName, String authorityDesc, String url, String classes, String itemId, String able, String icon, Integer sortNum, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+        this.authorityId = authorityId;
+        this.parentId = parentId;
+        this.type = type;
+        this.authorityName = authorityName;
+        this.authorityDesc = authorityDesc;
+        this.url = url;
+        this.classes = classes;
+        this.itemId = itemId;
+        this.able = able;
+        this.icon = icon;
+        this.sortNum = sortNum;
+        this.createTime = createTime;
+        this.createUserId = createUserId;
+        this.updateTime = updateTime;
+        this.updateUserId = updateUserId;
+        this.status = status;
+    }
+
+    public Integer getAuthorityId() {
         return authorityId;
     }
 
-    public void setAuthorityId(String authorityId) {
+    public void setAuthorityId(Integer authorityId) {
         this.authorityId = authorityId;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
 
@@ -168,11 +190,11 @@ public class SysAuthority implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -184,11 +206,11 @@ public class SysAuthority implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -200,33 +222,11 @@ public class SysAuthority implements Serializable {
         this.status = status;
     }
 
-    public SysAuthority() {
-    }
-
-    public SysAuthority(String authorityId, String parentId, String type, String authorityName, String authorityDesc, String url, String classes, String itemId, String able, String icon, Integer sortNum, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
-        this.authorityId = authorityId;
-        this.parentId = parentId;
-        this.type = type;
-        this.authorityName = authorityName;
-        this.authorityDesc = authorityDesc;
-        this.url = url;
-        this.classes = classes;
-        this.itemId = itemId;
-        this.able = able;
-        this.icon = icon;
-        this.sortNum = sortNum;
-        this.createTime = createTime;
-        this.createUserId = createUserId;
-        this.updateTime = updateTime;
-        this.updateUserId = updateUserId;
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "SysAuthority{" +
-                "authorityId='" + authorityId + '\'' +
-                ", parentId='" + parentId + '\'' +
+                "authorityId=" + authorityId +
+                ", parentId=" + parentId +
                 ", type='" + type + '\'' +
                 ", authorityName='" + authorityName + '\'' +
                 ", authorityDesc='" + authorityDesc + '\'' +
@@ -237,9 +237,9 @@ public class SysAuthority implements Serializable {
                 ", icon='" + icon + '\'' +
                 ", sortNum=" + sortNum +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", status='" + status + '\'' +
                 '}';
     }

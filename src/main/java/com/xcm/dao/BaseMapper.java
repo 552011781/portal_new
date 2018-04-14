@@ -18,7 +18,7 @@ public interface BaseMapper<T> {
      *
      * @param id 删除的数据的id
      */
-    void deleteById(String id);
+    void deleteById(Integer id);
 
     /**
      * 更新
@@ -33,5 +33,5 @@ public interface BaseMapper<T> {
      * @param id
      * @return
      */
-    T getById(String id);
+    T getById(Integer id);
 }

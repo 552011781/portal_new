@@ -10,11 +10,11 @@ public class SysDepartmentVo implements Serializable {
     /**
      * 部门主键
      */
-    private String departmentId;
+    private Integer departmentId;
     /**
      * 父部门主键
      */
-    private String parentId;
+    private Integer parentId;
     /**
      * 父部门名称
      */
@@ -34,7 +34,7 @@ public class SysDepartmentVo implements Serializable {
     /**
      * 排序号
      */
-    private String sortcode;
+    private String sortCode;
     /**
      * 创建时间
      */
@@ -42,7 +42,7 @@ public class SysDepartmentVo implements Serializable {
     /**
      * 创建者主键
      */
-    private String createUserId;
+    private Integer createUserId;
     /**
      * 更新时间
      */
@@ -50,22 +50,44 @@ public class SysDepartmentVo implements Serializable {
     /**
      * 更新者主键
      */
-    private String updateUserId;
+    private Integer updateUserId;
     /**
      * 状态（1：正常；0：逻辑删除）
      */
     private String status;
 
-    public String getDepartmentId() {
+    public SysDepartmentVo() {
+    }
+
+    public SysDepartmentVo(Integer departmentId, Integer parentId, String parentName, String departmentName, String departmentCode, String description, String sortCode, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+        this.departmentId = departmentId;
+        this.parentId = parentId;
+        this.parentName = parentName;
+        this.departmentName = departmentName;
+        this.departmentCode = departmentCode;
+        this.description = description;
+        this.sortCode = sortCode;
+        this.createTime = createTime;
+        this.createUserId = createUserId;
+        this.updateTime = updateTime;
+        this.updateUserId = updateUserId;
+        this.status = status;
+    }
+
+    public Integer getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Integer departmentId) {
         this.departmentId = departmentId;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getParentName() {
@@ -74,10 +96,6 @@ public class SysDepartmentVo implements Serializable {
 
     public void setParentName(String parentName) {
         this.parentName = parentName;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     public String getDepartmentName() {
@@ -104,12 +122,12 @@ public class SysDepartmentVo implements Serializable {
         this.description = description;
     }
 
-    public String getSortcode() {
-        return sortcode;
+    public String getSortCode() {
+        return sortCode;
     }
 
-    public void setSortcode(String sortcode) {
-        this.sortcode = sortcode;
+    public void setSortCode(String sortCode) {
+        this.sortCode = sortCode;
     }
 
     public Long getCreateTime() {
@@ -120,11 +138,11 @@ public class SysDepartmentVo implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getCreateUserId() {
+    public Integer getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(String createUserId) {
+    public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
     }
 
@@ -136,11 +154,11 @@ public class SysDepartmentVo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateUserId() {
+    public Integer getUpdateUserId() {
         return updateUserId;
     }
 
-    public void setUpdateUserId(String updateUserId) {
+    public void setUpdateUserId(Integer updateUserId) {
         this.updateUserId = updateUserId;
     }
 
@@ -152,38 +170,20 @@ public class SysDepartmentVo implements Serializable {
         this.status = status;
     }
 
-    public SysDepartmentVo() {
-    }
-
-    public SysDepartmentVo(String departmentId, String parentId, String parentName, String departmentName, String departmentCode, String description, String sortcode, Long createTime, String createUserId, Long updateTime, String updateUserId, String status) {
-        this.departmentId = departmentId;
-        this.parentId = parentId;
-        this.parentName = parentName;
-        this.departmentName = departmentName;
-        this.departmentCode = departmentCode;
-        this.description = description;
-        this.sortcode = sortcode;
-        this.createTime = createTime;
-        this.createUserId = createUserId;
-        this.updateTime = updateTime;
-        this.updateUserId = updateUserId;
-        this.status = status;
-    }
-
     @Override
     public String toString() {
         return "SysDepartmentVo{" +
-                "departmentId='" + departmentId + '\'' +
-                ", parentId='" + parentId + '\'' +
+                "departmentId=" + departmentId +
+                ", parentId=" + parentId +
                 ", parentName='" + parentName + '\'' +
                 ", departmentName='" + departmentName + '\'' +
                 ", departmentCode='" + departmentCode + '\'' +
                 ", description='" + description + '\'' +
-                ", sortcode='" + sortcode + '\'' +
+                ", sortCode='" + sortCode + '\'' +
                 ", createTime=" + createTime +
-                ", createUserId='" + createUserId + '\'' +
+                ", createUserId=" + createUserId +
                 ", updateTime=" + updateTime +
-                ", updateUserId='" + updateUserId + '\'' +
+                ", updateUserId=" + updateUserId +
                 ", status='" + status + '\'' +
                 '}';
     }

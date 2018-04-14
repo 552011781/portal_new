@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.xcm.model.SysDepartment;
 import com.xcm.model.vo.SysDepartmentVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,5 +21,38 @@ public interface SysDepartmentService extends BaseService<SysDepartment> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysDepartmentVo> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+
+    /**
+     * 查询集合
+     *
+     * @param paramMap 参数map
+     * @return
+     */
+    List<SysDepartmentVo> list(Map<String, String> paramMap);
+
+    /**
+     * 根据id查询
+     *
+     * @param id
+     * @return
+     */
+    SysDepartmentVo getByIdVo(Integer id);
+
+    /**
+     * 根据部门名称查询
+     *
+     * @param departmentName 部门名称
+     * @return
+     */
+    SysDepartment getByName(String departmentName);
+
+    /**
+     * 判断是否可以删除
+     * 如果该部门存在子部门，则不能删除，返回false，反之返回true
+     *
+     * @param departmentId
+     * @return
+     */
+    boolean canDelete(Integer departmentId);
 }

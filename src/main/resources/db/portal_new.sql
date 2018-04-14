@@ -47,7 +47,7 @@ CREATE TABLE `sys_authority` (
   `item_id` varchar(32) DEFAULT NULL,
   `able` varchar(1) DEFAULT NULL,
   `icon` varchar(32) DEFAULT NULL,
-  `sort_num` varchar(32) DEFAULT NULL,
+  `sort_num` int(20) DEFAULT NULL,
   `create_time` bigint(15) DEFAULT NULL,
   `create_user_id` varchar(32) DEFAULT NULL,
   `update_time` bigint(20) DEFAULT NULL,

@@ -19,5 +19,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysRole> page(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    Page<SysRole> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
 }
