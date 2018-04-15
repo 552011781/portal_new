@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcm.dao.SysDepartmentMapper">
+    <resultMap id="BaseResultMap" type="com.xcm.model.SysDepartment">
+        <id column="department_id" property="departmentId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="department_code" property="departmentCode" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="sort_code" property="sortCode" jdbcType="INTEGER"/>
+        <result column="able" property="able" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_table_name">
+        sys_department
+    </sql>
+
+    <sql id="Base_Column_List">
+        department_id, parent_id, department_name, department_code, description, sort_code, able
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <sql id="Base_Column_List_no_id">
+        parent_id, department_name, department_code, description, sort_code, able
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where status='1' AND department_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where status='1' AND department_name = #{departmentName,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+        <include refid="Base_table_name"/>
+        where department_id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--新增不返回主键-->
+    <insert id="save" parameterType="com.xcm.model.SysDepartment">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List"/>)
+        values (
+        #{departmentId,jdbcType=INTEGER},
+        #{parentId,jdbcType=INTEGER},
+        #{departmentName,jdbcType=VARCHAR},
+        #{departmentCode,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{sortCode,jdbcType=INTEGER},
+        #{able,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--新增并返回主键-->
+    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="departmentId" keyColumn="department_id"
+            parameterType="com.xcm.model.SysDepartment">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List_no_id"/>)
+        values (
+        #{parentId,jdbcType=INTEGER},
+        #{departmentName,jdbcType=VARCHAR},
+        #{departmentCode,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{sortCode,jdbcType=INTEGER},
+        #{able,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysDepartment">
+        update
+        <include refid="Base_table_name"/> SET
+        parent_id = #{parentId,jdbcType=INTEGER},
+        department_name = #{departmentName,jdbcType=VARCHAR},
+        department_code = #{departmentCode,jdbcType=VARCHAR},
+        description = #{description,jdbcType=VARCHAR},
+        sort_code = #{sortCode,jdbcType=INTEGER},
+        able = #{able,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=BIGINT},
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=BIGINT},
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR}
+        where role_id = #{departmentId,jdbcType=INTEGER}
+    </update>
+
+    <select id="countByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        COUNT(*)
+        from
+        <include refid="Base_table_name"/>
+        where status='1'
+        <if test="parentId != null">
+            and parent_id = #{parentId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+
+    <!--///////////////////////////////////////SysDepartmentVO相关start////////////////////////////////////////-->
+    <resultMap id="BaseResultMapVo" type="com.xcm.model.vo.SysDepartmentVo">
+        <id column="department_id" property="departmentId" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="parent_name" property="parentName" jdbcType="VARCHAR"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="department_code" property="departmentCode" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="sort_code" property="sortCode" jdbcType="INTEGER"/>
+        <result column="able" property="able" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List_vo">
+        s.department_id, s.parent_id, s.department_name, s.department_code, s.description, s.sort_code, s.able
+        s.create_time, s.create_user_id, s.update_time, s.update_user_id, s.status, p.department_name AS parent_name
+    </sql>
+
+    <!--查询集合（可按条件）-->
+    <select id="list" resultMap="BaseResultMapVo" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from sys_department AS s
+        LEFT JOIN sys_department AS p ON s.parent_id = p.department_id
+        where s.status='1'
+        <if test="parentId != null">
+            and s.parent_id = #{parentId, jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <!--查询分页（可按条件）-->
+    <select id="listPage" resultMap="BaseResultMapVo" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from sys_department AS s
+        LEFT JOIN sys_department AS p ON s.parent_id = p.department_id
+        where s.status='1'
+        <if test="parentId != null">
+            and s.parent_id = #{parentId, jdbcType=INTEGER}
+        </if>
+        <if test="pageNum != null">
+            limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+
+    <select id="getByIdVo" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from sys_department AS s
+        LEFT JOIN sys_department AS p ON s.parent_id = p.department_id
+        where s.status='1' AND s.department_id = #{id,jdbcType=INTEGER}
+    </select>
+    <!--///////////////////////////////////////SysDepartmentVO相关end////////////////////////////////////////-->
+</mapper>

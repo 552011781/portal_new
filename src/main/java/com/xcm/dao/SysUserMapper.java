@@ -16,18 +16,18 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 用户登陆
      *
-     * @param username       用户名
-     * @param password       用户密码
-     * @param systemIdentify 业务系统标识
+     * @param paramMap 参数map
+     * @return
      */
-    SysUserVo login(String username, String password, String systemIdentify);
+    SysUserVo login(Map<String, String> paramMap);
 
     /**
-     * 用户退出
+     * 查询集合
      *
-     * @param username 用户名
+     * @param paramMap 参数map
+     * @return
      */
-    void logout(String username);
+    List<SysUserVo> list(Map<String, String> paramMap);
 
     /**
      * 用户列表分页
@@ -46,7 +46,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     SysUser getByUsername(String userName);
 
     /**
-     * 给用户授权
+     * 给用户添加角色
      *
      * @param userRoleList
      */
@@ -65,21 +65,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      *
      * @param userId 用户id
      */
-    void removeOldRole(Integer userId);
-
-    /**
-     * 查询集合
-     *
-     * @param paramMap 参数map
-     * @return
-     */
-    List<SysUserVo> list(Map<String, String> paramMap);
+    void deleteOldRole(Integer userId);
 
     /**
      * 听启用用户
      *
-     * @param userId 用户id
-     * @param able   启用状态（1启用，0停用）
+     * @param paramMap
      */
-    void setAble(Integer userId, String able);
+    void setEnableOrDiable(Map<String, String> paramMap);
 }

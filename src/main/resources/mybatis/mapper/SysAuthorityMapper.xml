@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="SysAuthorityMapper">
+<mapper namespace="com.xcm.dao.SysAuthorityMapper">
     <resultMap id="BaseResultMap" type="com.xcm.model.SysAuthority">
         <id column="authority_id" property="authorityId" jdbcType="INTEGER"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
@@ -39,13 +39,13 @@
         <include refid="Base_Column_List"/>
         from
         <include refid="Base_table_name"/>
-        where authority_id = #{id,jdbcType=INTEGER}
+        where status='1' AND authority_id = #{id,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from
         <include refid="Base_table_name"/>
-        where id = #{id,jdbcType=INTEGER}
+        where authority_id = #{id,jdbcType=INTEGER}
     </delete>
 
     <!--新增不返回主键-->
@@ -101,6 +101,7 @@
     <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysAuthority">
         update
         <include refid="Base_table_name"/>
+        SET
         parent_id = #{parentId,jdbcType=INTEGER},
         type = #{type,jdbcType=VARCHAR},
         authority_name = #{authorityName,jdbcType=VARCHAR},
@@ -130,9 +131,12 @@
         <include refid="Base_table_name"/>
         AS a
         LEFT JOIN role_authority AS ra ON ra.authority_id = a.authority_id
-        where 1=1
+        where a.status='1'
         <if test="roleId != null">
             and ra.role_id = #{roleId, jdbcType=INTEGER}
+        </if>
+        <if test="type != null and type != ''">
+            and a.type = #{type, jdbcType=VARCHAR}
         </if>
     </select>
 
@@ -146,7 +150,7 @@
         <include refid="Base_table_name"/>
         AS a
         LEFT JOIN role_authority AS ra ON ra.authority_id = a.authority_id
-        where 1=1
+        where a.status='1'
         <if test="roleId != null">
             and ra.role_id = #{roleId, jdbcType=INTEGER}
         </if>
@@ -159,19 +163,25 @@
     <select id="countByParam" resultType="java.lang.Integer" parameterType="com.xcm.model.SysAuthority">
         select COUNT(*) from
         <include refid="Base_table_name"/>
-        where 1=1
+        where status='1'
         <if test="parentId != null">
             and parent_id = #{parentId, jdbcType=INTEGER}
         </if>
         <if test="authorityName != null">
             and authority_name = #{authorityName, jdbcType=VARCHAR}
         </if>
+        <if test="type != null and type != ''">
+            and type = #{type, jdbcType=VARCHAR}
+        </if>
+        <if test="itemId != null and itemId != ''">
+            and item_id = #{itemId, jdbcType=VARCHAR}
+        </if>
     </select>
 
     <!--统计权限与角色关联的数量-->
     <select id="countRoleAuthority" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select COUNT(*) from role_authority
-        where 1=1
+        where status='1'
         <if test="authorityId != null">
             and authority_id = #{authorityId, jdbcType=INTEGER}
         </if>

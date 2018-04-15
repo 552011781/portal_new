@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="SysRoleMapper">
+<mapper namespace="com.xcm.dao.SysRoleMapper">
     <resultMap id="BaseResultMap" type="com.xcm.model.SysRole">
         <id column="role_id" property="roleId" jdbcType="INTEGER"/>
         <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
@@ -13,16 +13,16 @@
     </resultMap>
 
     <sql id="Base_table_name">
-		sys_role
+        sys_role
     </sql>
 
     <sql id="Base_Column_List">
-		role_id, role_name, role_desc,
+        role_id, role_name, role_desc,
         create_time, create_user_id, update_time, update_user_id, status
     </sql>
 
     <sql id="Base_Column_List_no_id">
-		role_name, role_desc,
+        role_name, role_desc,
         create_time, create_user_id, update_time, update_user_id, status
     </sql>
 
@@ -31,13 +31,13 @@
         <include refid="Base_Column_List"/>
         from
         <include refid="Base_table_name"/>
-        where role_id = #{id,jdbcType=INTEGER}
+        where status='1' AND role_id = #{id,jdbcType=INTEGER}
     </select>
 
     <delete id="deleteById" parameterType="java.lang.Integer">
         delete from
         <include refid="Base_table_name"/>
-        where id = #{id,jdbcType=INTEGER}
+        where role_id = #{id,jdbcType=INTEGER}
     </delete>
 
     <!--新增不返回主键-->
@@ -58,7 +58,7 @@
     </insert>
 
     <!--新增并返回主键-->
-    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="RoleId" keyColumn="Role_id"
+    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="roleId" keyColumn="role_id"
             parameterType="com.xcm.model.SysRole">
         insert into
         <include refid="Base_table_name"/>
@@ -76,7 +76,7 @@
 
     <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysRole">
         update
-        <include refid="Base_table_name"/>
+        <include refid="Base_table_name"/> SET
         role_name = #{roleName,jdbcType=VARCHAR},
         role_desc = #{roleDesc,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=BIGINT},
@@ -94,7 +94,7 @@
         <include refid="Base_Column_List"/>
         from
         <include refid="Base_table_name"/>
-        where 1=1
+        where status='1'
         <if test="roleName != null">
             and role_name = #{roleName, jdbcType=VARCHAR}
         </if>
@@ -106,7 +106,7 @@
         <include refid="Base_Column_List"/>
         from
         <include refid="Base_table_name"/>
-        where 1=1
+        where status='1'
         <if test="roleName != null">
             and role_name = #{roleName, jdbcType=VARCHAR}
         </if>
@@ -142,7 +142,7 @@
     <select id="countRoleRelationWithRoleAndUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         SELECT COUNT(*)
         FROM role_authority ra, user_role ur
-        WHERE 1=1
+        WHERE status='1'
         <if test="roleId != null">
             and ra.role_id = #{roleId, jdbcType=INTEGER} OR ur.role_id = #{roleId, jdbcType=INTEGER}
         </if>
@@ -152,7 +152,7 @@
     <select id="countRoleRelationWithUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         SELECT COUNT(*)
         FROM user_role
-        WHERE 1=1
+        WHERE status='1'
         <if test="roleId != null">
             and role_id = #{roleId, jdbcType=INTEGER}
         </if>

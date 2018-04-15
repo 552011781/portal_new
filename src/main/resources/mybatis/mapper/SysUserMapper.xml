@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xcm.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.xcm.model.SysUser">
+        <id column="user_id" property="roleId" jdbcType="INTEGER"/>
+        <result column="department_id" property="departmentId" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="post" property="post" jdbcType="VARCHAR"/>
+        <result column="nation" property="nation" jdbcType="VARCHAR"/>
+        <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="able" property="able" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_table_name">
+        sys_user
+    </sql>
+
+    <sql id="Base_Column_List">
+        user_id, department_id, user_name, password, real_name, sex, post, nation, id_card, email, telephone, able
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <sql id="Base_Column_List_no_id">
+        department_id, user_name, password, real_name, sex, post, nation, id_card, email, telephone, able
+        create_time, create_user_id, update_time, update_user_id, status
+    </sql>
+
+    <select id="getById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where status='1' AND user_id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <select id="getByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        <include refid="Base_table_name"/>
+        where status='1'
+        <if test="userName != null">
+            and user_name = #{userName, jdbcType=VARCHAR}
+        </if>
+        LIMIT 0,1
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+        <include refid="Base_table_name"/>
+        where user_id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!--新增不返回主键-->
+    <insert id="save" parameterType="com.xcm.model.SysUser">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List"/>)
+        values (
+        #{userId,jdbcType=INTEGER},
+        #{departmentId,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{realName,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR},
+        #{post,jdbcType=VARCHAR},
+        #{nation,jdbcType=VARCHAR},
+        #{idCard,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{able,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--新增并返回主键-->
+    <insert id="saveAndGetId" useGeneratedKeys="true" keyProperty="roleId" keyColumn="user_id"
+            parameterType="com.xcm.model.SysUser">
+        insert into
+        <include refid="Base_table_name"/>
+        (<include refid="Base_Column_List_no_id"/>)
+        values (
+        #{departmentId,jdbcType=VARCHAR},
+        #{userName,jdbcType=VARCHAR},
+        #{password,jdbcType=VARCHAR},
+        #{realName,jdbcType=VARCHAR},
+        #{sex,jdbcType=VARCHAR},
+        #{post,jdbcType=VARCHAR},
+        #{nation,jdbcType=VARCHAR},
+        #{idCard,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{able,jdbcType=VARCHAR},
+        #{createTime,jdbcType=BIGINT},
+        #{createUserId,jdbcType=INTEGER},
+        #{updateTime,jdbcType=BIGINT},
+        #{updateUserId,jdbcType=INTEGER},
+        #{status,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysUser">
+        update
+        <include refid="Base_table_name"/>
+        SET
+        department_id = #{departmentId,jdbcType=VARCHAR},
+        user_name = #{userName,jdbcType=VARCHAR},
+        password = #{password,jdbcType=VARCHAR},
+        real_name = #{realName,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        post = #{post,jdbcType=VARCHAR},
+        nation = #{nation,jdbcType=VARCHAR},
+        id_card = #{idCard,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        telephone = #{telephone,jdbcType=VARCHAR},
+        able = #{able,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=BIGINT},
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+        update_time = #{updateTime,jdbcType=BIGINT},
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+        status = #{status,jdbcType=VARCHAR}
+        where user_id = #{userId,jdbcType=INTEGER}
+    </update>
+
+    <update id="setEnableOrDiable" parameterType="java.util.HashMap">
+        update sys_user SET able = #{able,jdbcType=VARCHAR}
+        where user_id = #{userId}
+    </update>
+
+    <!--给用户添加角色-->
+    <insert id="authorizeUserWithRoles" parameterType="java.util.List">
+        INSERT INTO user_role(user_id,user_id)
+        <foreach collection="userRoleList" item="item" separator=",">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
+    <!--清除用户之前的角色-->
+    <delete id="deleteOldRole" parameterType="java.lang.Integer">
+        delete from
+        user_role
+        where user_id = #{userId,jdbcType=INTEGER}
+    </delete>
+
+
+    <!--//////////////////////////////////////////////////SysUserVo相关start/////////////////////////////////////////////////////-->
+    <resultMap id="BaseResultMapVo" type="com.xcm.model.vo.SysUserVo">
+        <id column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="department_id" property="departmentId" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="post" property="post" jdbcType="VARCHAR"/>
+        <result column="nation" property="nation" jdbcType="VARCHAR"/>
+        <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="able" property="able" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="sex_desc" property="sexDesc" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List_vo">
+        u.user_id, u.department_id, u.user_name, u.password, u.real_name, u.sex, u.post, u.nation, u.id_card, u.email, u.telephone, u.able,
+        u.create_time, u.create_user_id, u.update_time, u.update_user_id, u.status,
+        (SELECT GROUP_CONCAT(d.department_name) FROM sys_department d LEFT JOIN sys_user u ON d.department_id = u.user_id ) AS department_name,
+        GROUP_CONCAT(r.role_id) AS role_id,
+        GROUP_CONCAT(r.role_name) AS role_name,
+        (CASE u.sex WHEN 1 THEN '男' ELSE '女' END) AS sex_desc
+    </sql>
+
+    <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMapVo">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from
+        sys_user AS u
+        LEFT JOIN user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        where u.status='1'
+        <if test="userName != null and userName!= ''">
+            and u.user_name = #{userName, jdbcType=VARCHAR}
+        </if>
+        <if test="password != null and password!= ''">
+            and u.password = #{password, jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <select id="getByIdVo" parameterType="java.lang.Integer" resultMap="BaseResultMapVo">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from
+        sys_user AS u
+        LEFT JOIN user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        where u.status='1' AND u.user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <!--查询集合（可按条件）-->
+    <select id="list" resultMap="BaseResultMapVo" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from
+        sys_user AS u
+        LEFT JOIN user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        where u.status='1'
+        <if test="realName != null and realName!= ''">
+            <bind name="pattern_real_name" value="'%' + realName + '%'"/>
+            and u.real_name LIKE #{pattern_real_name}
+        </if>
+    </select>
+
+    <!--查询分页（可按条件）-->
+    <select id="listPage" resultMap="BaseResultMapVo" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List_vo"/>
+        from
+        sys_user AS u
+        LEFT JOIN user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        where u.status='1'
+        <if test="departmentId != null">
+            and u.department_id = #{departmentId}
+        </if>
+        <if test="roleId != null">
+            and r.role_id = #{roleId}
+        </if>
+        <if test="search != null">
+            <bind name="pattern_search" value="'%' + search + '%'"/>
+            and CONCAT_WS(',',u.user_name,u.telephone,u.email) LIKE #{pattern_search}
+        </if>
+        <if test="pageNum != null">
+            limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
+        </if>
+    </select>
+    <!--//////////////////////////////////////////////////SysUserVo相关end/////////////////////////////////////////////////////-->
+</mapper>

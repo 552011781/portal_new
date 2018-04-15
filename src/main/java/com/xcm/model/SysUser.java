@@ -20,7 +20,7 @@ public class SysUser implements Serializable {
      */
     private String userName;
     /**
-     * 密码
+     * 密码(MD5加密)
      */
     private String password;
     /**

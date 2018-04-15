@@ -32,10 +32,6 @@ public class SysUserVo implements Serializable {
      */
     private String sex;
     /**
-     * 性别（汉子）
-     */
-    private String sexDesc;
-    /**
      * 岗位
      */
     private String post;
@@ -88,6 +84,7 @@ public class SysUserVo implements Serializable {
      */
     private String status;
 
+    /********************vo相关******************/
     /**
      * 部门名称(多个以英文逗号隔开)
      */
@@ -100,6 +97,10 @@ public class SysUserVo implements Serializable {
      * 角色名称(多个以英文逗号隔开)
      */
     private String roleName;
+    /**
+     * 性别（中文）
+     */
+    private String sexDesc;
 
     public SysUserVo() {
     }

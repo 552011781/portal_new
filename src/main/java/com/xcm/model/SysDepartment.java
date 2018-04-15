@@ -30,7 +30,7 @@ public class SysDepartment implements Serializable {
     /**
      * 排序号
      */
-    private String sortCode;
+    private Integer sortCode;
     /**
      * 是否启用（1启用，0停用）
      */
@@ -96,11 +96,11 @@ public class SysDepartment implements Serializable {
         this.description = description;
     }
 
-    public String getSortCode() {
+    public Integer getSortCode() {
         return sortCode;
     }
 
-    public void setSortCode(String sortCode) {
+    public void setSortCode(Integer sortCode) {
         this.sortCode = sortCode;
     }
 
@@ -155,7 +155,7 @@ public class SysDepartment implements Serializable {
     public SysDepartment() {
     }
 
-    public SysDepartment(Integer departmentId, Integer parentId, String departmentName, String departmentCode, String description, String sortCode, String able, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+    public SysDepartment(Integer departmentId, Integer parentId, String departmentName, String departmentCode, String description, Integer sortCode, String able, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
         this.departmentId = departmentId;
         this.parentId = parentId;
         this.departmentName = departmentName;

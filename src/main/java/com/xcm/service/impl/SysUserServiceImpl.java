@@ -3,7 +3,9 @@ package com.xcm.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xcm.cache.RedisCacheDao;
+import com.xcm.config.MyConfig;
 import com.xcm.constant.BaseConstant;
+import com.xcm.constant.SystemNameContants;
 import com.xcm.constant.cache.CacheSysUserConstant;
 import com.xcm.dao.SysUserMapper;
 import com.xcm.model.SysUser;
@@ -12,12 +14,12 @@ import com.xcm.model.vo.SysUserVo;
 import com.xcm.page.PageUtil;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,29 +37,43 @@ public class SysUserServiceImpl implements SysUserService {
     /**
      * 登录系统
      *
-     * @param username       用户名
-     * @param password       用户密码
-     * @param systemIdentify 业务系统标识
+     * @param paramMap 用户名
      * @return
      */
     @Override
-    public SysUserVo login(String username, String password, String systemIdentify) {
-        SysUserVo loginUser = sysUserMapper.login(username, password, systemIdentify);
-        if (null != loginUser) {
-            redisCacheDao.putCache(systemIdentify, loginUser.getUserId().toString(), loginUser);
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
+    public SysUserVo login(Map<String, String> paramMap) {
+        SysUserVo loginUser = sysUserMapper.login(paramMap);
+        if (null != loginUser && CheckUtil.checkNumOk(loginUser.getUserId())) {
+            //1.使用redis缓存，用户id-用户id-用户对象
+            //redisCacheDao.putCache(loginUser.getUserId().toString(), CacheSysUserConstant.USER, loginUser);
+            //2.存自定义配置中
+            String system = paramMap.get("system");
+            if (StringUtils.isNotBlank(system) && SystemNameContants.SYSTEM_PORTAL.equals(system)) {
+                //设置统一账户管理平台当前登录用户
+                MyConfig.loginUsersMap.put(CacheSysUserConstant.CURRENT_USER, loginUser);
+            }
+            MyConfig.loginUsersMap.put(loginUser.getUserId().toString(), loginUser);
         }
-        return sysUserMapper.login(username, password, systemIdentify);
+        return loginUser;
     }
 
     /**
      * 退出系统
      *
-     * @param sysUserId 用户主键
+     * @param userId 用户主键
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void logout(String systemIdentify, Integer sysUserId) {
-        redisCacheDao.putCache(systemIdentify, sysUserId.toString(), null);
+    public void logout(String system, Integer userId) {
+        //redis缓存中清除登录用户信息
+        //redisCacheDao.putCache(system, userId.toString(), null);
+        //自定义存储中清除登录用户信息
+        if (StringUtils.isNotBlank(system) && SystemNameContants.SYSTEM_PORTAL.equals(system)) {
+            //设置统一账户管理平台当前登录用户 退出
+            MyConfig.loginUsersMap.put(CacheSysUserConstant.CURRENT_USER, null);
+        }
+        MyConfig.loginUsersMap.put(userId.toString(), null);
     }
 
     /**
@@ -158,7 +174,7 @@ public class SysUserServiceImpl implements SysUserService {
         //更新用户
         update(sysUser);
         //清除之前的角色
-        sysUserMapper.removeOldRole(sysUser.getUserId());
+        sysUserMapper.deleteOldRole(sysUser.getUserId());
         //关联新的角色
         saveUserRole(sysUser.getUserId(), roleIds);
     }
@@ -227,12 +243,11 @@ public class SysUserServiceImpl implements SysUserService {
     /**
      * 启用用户
      *
-     * @param userId 启用的用户id
-     * @param able   是否启用（1启用，0停用）
+     * @param paramMap
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void setEnbleOrDisable(Integer userId, String able) {
-        sysUserMapper.setAble(userId, able);
+    public void setEnbleOrDisable(Map<String, String> paramMap) {
+        sysUserMapper.setEnableOrDiable(paramMap);
     }
 }

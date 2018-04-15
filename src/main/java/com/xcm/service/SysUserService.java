@@ -15,19 +15,17 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 用户登陆
      *
-     * @param username       用户名
-     * @param password       用户密码
-     * @param systemIdentify 业务系统标识
+     * @param paramMap
      */
-    SysUserVo login(String username, String password, String systemIdentify);
+    SysUserVo login(Map<String, String> paramMap);
 
     /**
      * 退出
      *
-     * @param systemIdentify 业务系统标志
-     * @param sysUserId      用户id
+     * @param system    业务系统标志
+     * @param sysUserId 用户id
      */
-    void logout(String systemIdentify, Integer sysUserId);
+    void logout(String system, Integer sysUserId);
 
     /**
      * 新增用户(绑定角色)
@@ -83,8 +81,7 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 设置用户启用状态
      *
-     * @param userId 启用的用户id
-     * @param able   启用状态（1启用，0停用）
+     * @param paramMap
      */
-    void setEnbleOrDisable(Integer userId, String able);
+    void setEnbleOrDisable(Map<String, String> paramMap);
 }

@@ -45,7 +45,7 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public Object saveSysUser(SysUser sysUser, String roleIds) {
         try {
-            String checkFormResult = SysUserValidator.validateSysUser(sysUser);
+            String checkFormResult = SysUserValidator.validateFormSysUser(sysUser);
             //用户表单验证,失败返回对应的提示语句
             if (StringUtils.isNoneBlank(checkFormResult)) {
                 return JsonResponseBuilder.buildFail(checkFormResult);
@@ -63,7 +63,7 @@ public class SysUserController extends BaseController {
             logger.error("SysUserController saveSysUser 新增用户失败：" + e.getMessage());
             return new ControllerException(SysUserConstants.SAVE_FAIL);
         }
-        return JsonResponseBuilder.buildFail(SysUserConstants.SAVE_SUCCESS);
+        return JsonResponseBuilder.buildSuccess(SysUserConstants.SAVE_SUCCESS);
     }
 
     /**
@@ -88,7 +88,7 @@ public class SysUserController extends BaseController {
             logger.error("SysUserController getById 根据id查询用户失败：" + e.getMessage());
             return JsonResponseBuilder.buildFail(SysUserConstants.GET_FAIL);
         }
-        return JsonResponseBuilder.buildFail(sysUserVo);
+        return JsonResponseBuilder.buildSuccess(sysUserVo);
     }
 
     /**
@@ -160,7 +160,10 @@ public class SysUserController extends BaseController {
             if (!CheckUtil.checkNumOk(userId)) {
                 return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
             }
-            sysUserService.setEnbleOrDisable(userId, SysUserConstants.STATUS_ENABLE);
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("userId", userId.toString());
+            paramMap.put("able", SysUserConstants.STATUS_ENABLE);
+            sysUserService.setEnbleOrDisable(paramMap);
             return JsonResponseBuilder.buildSuccess(SysUserConstants.ENABLE_SUCCESS);
         } catch (Exception e) {
             logger.error("SysUserController enable 用户启用失败：" + e.getMessage());
@@ -182,7 +185,10 @@ public class SysUserController extends BaseController {
             if (!CheckUtil.checkNumOk(userId)) {
                 return BaseConstant.MSG_PARAM_ERROR;
             }
-            sysUserService.setEnbleOrDisable(userId, SysUserConstants.STATUS_DISABLE);
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("userId", userId.toString());
+            paramMap.put("able", SysUserConstants.STATUS_DISABLE);
+            sysUserService.setEnbleOrDisable(paramMap);
             return JsonResponseBuilder.buildSuccess(SysUserConstants.DISABLE_SUCCESS);
         } catch (Exception e) {
             logger.error("SysUserController disable 用户停用失败：" + e.getMessage());

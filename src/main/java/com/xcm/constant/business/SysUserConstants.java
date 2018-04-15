@@ -19,7 +19,6 @@ public class SysUserConstants {
     public static final String DISABLE_FAIL = "停用失败";
     public static final String STATUS_DISABLE = "0";
     public static final String STATUS_ENABLE = "1";
-    public static final String PARAM_SYS_BUTTON_ID_NOT_NULL = "参数用户id不能为空";
     public static final String VALIDATE_NO_SYS_USER = "未填写数据";
     public static final String VALIDATE_USERNAME_ERROR = "用户名错误";
     public static final String VALIDATE_PASSWORD_ERROR = "密码错误";
@@ -30,4 +29,19 @@ public class SysUserConstants {
     public static final String VALIDATE_ROLE_ERROR = "角色不能为空";
     public static final String VALIDATE_USER_EXITS = "用户已经存在";
     public static final String VALIDATE_USER_NOT_EXITS = "用户不存在";
+
+    //登录
+    public static final String LOGIN_NO_USER_NAME = "用户名不能为空";
+    public static final String LOGIN_NO_PASSWORD = "密码不能为空";
+    public static final String LOGIN_NO_SYSTEM = "系统标志不能为空";
+    public static final String LOGIN_NO_VERIFICATION = "验证码不能为空";
+    public static final String LOGIN_USER_NAME_ERROR = "用户名错误";
+    public static final String LOGIN_PASSWORD_ERROR = "密码错误";
+    public static final String LOGIN_SYSTEM_ERROR = "系统标志错误";
+    public static final String LOGIN_VERIFICATION_ERROR = "验证码错误";
+    public static final String LOGIN_FAIL = "登录失败";
+    public static final String LOGIN_SUCCESS = "登录成功";
+    public static final String LOGOUT_FAIL = "退出失败";
+    public static final String LOGOUT_SUCCESS = "退出成功";
+    public static final String LOGOUT_NO_USER = "没有需要退出的用户，请确认";
 }

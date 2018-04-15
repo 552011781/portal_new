@@ -48,8 +48,8 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
     /**
      * 根据父id统计子部门数量
      *
-     * @param departmentId
+     * @param parentId
      * @return
      */
-    Integer countByParentId(Integer departmentId);
+    Integer countByParentId(Integer parentId);
 }

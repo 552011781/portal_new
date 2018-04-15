@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class SysDepartmentController extends BaseController {
      * @return
      */
     @RequestMapping("/saveDepartment")
+    @ResponseBody
     public Object saveDepartment(SysDepartment sysDepartment) {
         if (StringUtils.isBlank(sysDepartment.getDepartmentName())) {
             return JsonResponseBuilder.buildFail(SysDepartmentConstants.DEPARTMENT_NAME_ERROR);
@@ -54,6 +56,7 @@ public class SysDepartmentController extends BaseController {
      * @return
      */
     @RequestMapping("/updateDepartment")
+    @ResponseBody
     public Object updateDepartment(SysDepartment sysDepartment) {
         if (StringUtils.isBlank(sysDepartment.getDepartmentName())) {
             return JsonResponseBuilder.buildFail(SysDepartmentConstants.DEPARTMENT_NAME_ERROR);
@@ -79,6 +82,7 @@ public class SysDepartmentController extends BaseController {
      * @return
      */
     @RequestMapping("/deleteDepartment")
+    @ResponseBody
     public Object deleteDepartment(Integer departmentId) {
         if (!CheckUtil.checkNumOk(departmentId)) {
             return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
@@ -104,6 +108,7 @@ public class SysDepartmentController extends BaseController {
      * @return
      */
     @RequestMapping("/getById")
+    @ResponseBody
     public Object getById(Integer departmentId) {
         if (!CheckUtil.checkNumOk(departmentId)) {
             return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
@@ -124,12 +129,13 @@ public class SysDepartmentController extends BaseController {
      * @return
      */
     @RequestMapping("/list")
+    @ResponseBody
     public Object list() {
         try {
             List<SysDepartmentVo> sysDepartmentVoList = sysDepartmentService.list(null);
             return JsonResponseBuilder.buildSuccess(sysDepartmentVoList);
         } catch (Exception e) {
-            logger.error("SysDepartmentController getById 根据id查询部门失败：" + e.getMessage());
+            logger.error("SysDepartmentController list 查询部门集合失败：" + e.getMessage());
             return JsonResponseBuilder.buildFail(BaseConstant.QUERY_FAIL);
         }
     }

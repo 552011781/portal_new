@@ -16,10 +16,6 @@ public class SysDepartmentVo implements Serializable {
      */
     private Integer parentId;
     /**
-     * 父部门名称
-     */
-    private String parentName;
-    /**
      * 部门名称
      */
     private String departmentName;
@@ -34,7 +30,7 @@ public class SysDepartmentVo implements Serializable {
     /**
      * 排序号
      */
-    private String sortCode;
+    private Integer sortCode;
     /**
      * 创建时间
      */
@@ -56,10 +52,16 @@ public class SysDepartmentVo implements Serializable {
      */
     private String status;
 
+    //vo相关
+    /**
+     * 父部门名称
+     */
+    private String parentName;
+
     public SysDepartmentVo() {
     }
 
-    public SysDepartmentVo(Integer departmentId, Integer parentId, String parentName, String departmentName, String departmentCode, String description, String sortCode, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
+    public SysDepartmentVo(Integer departmentId, Integer parentId, String parentName, String departmentName, String departmentCode, String description, Integer sortCode, Long createTime, Integer createUserId, Long updateTime, Integer updateUserId, String status) {
         this.departmentId = departmentId;
         this.parentId = parentId;
         this.parentName = parentName;
@@ -122,11 +124,11 @@ public class SysDepartmentVo implements Serializable {
         this.description = description;
     }
 
-    public String getSortCode() {
+    public Integer getSortCode() {
         return sortCode;
     }
 
-    public void setSortCode(String sortCode) {
+    public void setSortCode(Integer sortCode) {
         this.sortCode = sortCode;
     }
 
