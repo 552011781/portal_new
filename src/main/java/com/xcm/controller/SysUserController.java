@@ -1,12 +1,12 @@
 package com.xcm.controller;
 
-import com.github.pagehelper.Page;
 import com.xcm.constant.BaseConstant;
 import com.xcm.constant.business.SysUserConstants;
 import com.xcm.exception.ControllerException;
 import com.xcm.model.SysUser;
 import com.xcm.model.response.JsonResponseBuilder;
 import com.xcm.model.vo.SysUserVo;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
 import com.xcm.validator.SysUserValidator;
@@ -107,7 +107,7 @@ public class SysUserController extends BaseController {
                            @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
                            @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
         try {
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             if (CheckUtil.checkNumOk(departmentId)) {
                 paramMap.put("departmentId", departmentId.toString());
             }
@@ -117,7 +117,7 @@ public class SysUserController extends BaseController {
             if (StringUtils.isNotBlank(search)) {
                 paramMap.put("search", search);
             }
-            Page<SysUserVo> sysUserVoPage = sysUserService.listPage(paramMap, pageNum, pageSize);
+            PageInfo<SysUserVo> sysUserVoPage = sysUserService.listPage(paramMap, pageNum, pageSize);
             return JsonResponseBuilder.buildSuccess(sysUserVoPage);
         } catch (Exception e) {
             logger.error("SysUserController listPage 用户分页查询失败：" + e.getMessage());
@@ -135,7 +135,7 @@ public class SysUserController extends BaseController {
     @ResponseBody
     public Object list(String realName) {
         try {
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             if (StringUtils.isNotBlank(realName)) {
                 paramMap.put("realName", realName);
             }
@@ -160,7 +160,7 @@ public class SysUserController extends BaseController {
             if (!CheckUtil.checkNumOk(userId)) {
                 return JsonResponseBuilder.buildFail(BaseConstant.MSG_PARAM_ERROR);
             }
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("userId", userId.toString());
             paramMap.put("able", SysUserConstants.STATUS_ENABLE);
             sysUserService.setEnbleOrDisable(paramMap);
@@ -185,7 +185,7 @@ public class SysUserController extends BaseController {
             if (!CheckUtil.checkNumOk(userId)) {
                 return BaseConstant.MSG_PARAM_ERROR;
             }
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("userId", userId.toString());
             paramMap.put("able", SysUserConstants.STATUS_DISABLE);
             sysUserService.setEnbleOrDisable(paramMap);

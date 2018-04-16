@@ -8,6 +8,7 @@ import java.util.List;
  * created by lq at 2018-04-11 11:25
  */
 public class SysAuthorityVo implements Serializable {
+    private static final long serialVersionUID = 3173182973592618178L;
     /**
      * 权限id
      */

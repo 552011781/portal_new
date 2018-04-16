@@ -7,6 +7,7 @@ import java.io.Serializable;
  * created by lq at 2018-04-11 11:25
  */
 public class SysRole implements Serializable {
+    private static final long serialVersionUID = -8406287703847355096L;
     /**
      * 角色主键
      */

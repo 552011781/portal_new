@@ -3,15 +3,12 @@ package com.xcm.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.xcm.cache.RedisCacheDao;
-import com.xcm.constant.business.SysAuthorityConstants;
 import com.xcm.constant.cache.CacheSysUserConstant;
 import com.xcm.dao.SysAuthorityMapper;
 import com.xcm.model.SysAuthority;
 import com.xcm.model.SysUser;
-import com.xcm.page.PageUtil;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysAuthorityService;
-import com.xcm.util.CheckUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,15 +87,15 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<SysAuthority> list(Map<String, String> paramMap) {
+    public List<SysAuthority> list(Map<String, Object> paramMap) {
         return sysAuthorityMapper.list(paramMap);
     }
 
     @Override
-    public Page<SysAuthority> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public PageInfo<SysAuthority> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
-        return sysAuthorityMapper.listPage(paramMap);
+        Page<SysAuthority> page = sysAuthorityMapper.listPage(paramMap);
+        return PageInfo.build(page);
     }
 
     /**

@@ -1,10 +1,13 @@
 package com.xcm.model;
 
+import java.io.Serializable;
+
 /**
  * 用户角色关联表
  * created by lq at 2018-04-13 10:24
  **/
-public class UserRole {
+public class UserRole implements Serializable {
+    private static final long serialVersionUID = -544552501414366665L;
     /**
      * 用户id
      */

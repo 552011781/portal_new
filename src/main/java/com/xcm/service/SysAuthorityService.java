@@ -1,7 +1,7 @@
 package com.xcm.service;
 
-import com.github.pagehelper.Page;
 import com.xcm.model.SysAuthority;
+import com.xcm.page.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -17,7 +17,7 @@ public interface SysAuthorityService extends BaseService<SysAuthority> {
      * @param paramMap 参数map
      * @return
      */
-    List<SysAuthority> list(Map<String, String> paramMap);
+    List<SysAuthority> list(Map<String, Object> paramMap);
 
     /**
      * 判断是否存在
@@ -43,5 +43,5 @@ public interface SysAuthorityService extends BaseService<SysAuthority> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysAuthority> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    PageInfo<SysAuthority> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 }

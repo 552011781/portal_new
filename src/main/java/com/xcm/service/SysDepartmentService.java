@@ -1,8 +1,8 @@
 package com.xcm.service;
 
-import com.github.pagehelper.Page;
 import com.xcm.model.SysDepartment;
 import com.xcm.model.vo.SysDepartmentVo;
+import com.xcm.page.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface SysDepartmentService extends BaseService<SysDepartment> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    PageInfo<SysDepartmentVo> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 
     /**
      * 查询集合
@@ -29,7 +29,7 @@ public interface SysDepartmentService extends BaseService<SysDepartment> {
      * @param paramMap 参数map
      * @return
      */
-    List<SysDepartmentVo> list(Map<String, String> paramMap);
+    List<SysDepartmentVo> list(Map<String, Object> paramMap);
 
     /**
      * 根据id查询

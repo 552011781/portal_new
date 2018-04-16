@@ -10,7 +10,7 @@ import com.xcm.model.RoleAuthority;
 import com.xcm.model.SysRole;
 import com.xcm.model.SysUser;
 import com.xcm.model.UserRole;
-import com.xcm.page.PageUtil;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysRoleService;
 import com.xcm.util.CheckUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -42,10 +42,10 @@ public class SysRoleServiceImpl implements SysRoleService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<SysRole> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public PageInfo<SysRole> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
-        return sysRoleMapper.listPage(paramMap);
+        Page<SysRole> page = sysRoleMapper.listPage(paramMap);
+        return PageInfo.build(page);
     }
 
     /**

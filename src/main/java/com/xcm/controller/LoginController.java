@@ -14,9 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 登录首页
  * created by lq at 2018-04-13 9:15
@@ -55,11 +52,7 @@ public class LoginController {
             if (StringUtils.isNotBlank(checkResult)) {
                 return JsonResponseBuilder.buildFail(checkResult);
             }
-            Map<String, String> params = new HashMap<>();
-            params.put("userName", userName);
-            params.put("password", password);
-            params.put("system", system);
-            loginUser = sysUserService.login(params);
+            loginUser = sysUserService.login(userName, password, system);
             if (null == loginUser || !CheckUtil.checkNumOk(loginUser.getUserId())) {
                 return JsonResponseBuilder.buildFail(SysUserConstants.VALIDATE_USER_NOT_EXITS);
             }
@@ -81,7 +74,6 @@ public class LoginController {
     @RequestMapping("/logout")
     @ResponseBody
     public Object logout(Integer userId, String system) {
-        SysUserVo loginUser = null;
         try {
             if (!CheckUtil.checkNumOk(userId)) {
                 return SysUserConstants.LOGOUT_NO_USER;

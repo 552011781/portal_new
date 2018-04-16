@@ -17,7 +17,7 @@ public interface SysAuthorityMapper extends BaseMapper<SysAuthority> {
      * @param paramMap 参数map
      * @return
      */
-    List<SysAuthority> list(Map<String, String> paramMap);
+    List<SysAuthority> list(Map<String, Object> paramMap);
 
     /**
      * 查询集合
@@ -25,7 +25,7 @@ public interface SysAuthorityMapper extends BaseMapper<SysAuthority> {
      * @param paramMap 参数map
      * @return
      */
-    Page<SysAuthority> listPage(Map<String, String> paramMap);
+    Page<SysAuthority> listPage(Map<String, Object> paramMap);
 
     /**
      * 根据参数统计数量

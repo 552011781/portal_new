@@ -8,7 +8,7 @@ import com.xcm.dao.SysDepartmentMapper;
 import com.xcm.model.SysDepartment;
 import com.xcm.model.SysUser;
 import com.xcm.model.vo.SysDepartmentVo;
-import com.xcm.page.PageUtil;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,10 +108,10 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
     }
 
     @Override
-    public Page<SysDepartmentVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public PageInfo<SysDepartmentVo> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
-        return sysDepartmentMapper.listPage(paramMap);
+        Page<SysDepartmentVo> page = sysDepartmentMapper.listPage(paramMap);
+        return PageInfo.build(page);
     }
 
     /**
@@ -121,7 +121,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @return
      */
     @Override
-    public List<SysDepartmentVo> list(Map<String, String> paramMap) {
+    public List<SysDepartmentVo> list(Map<String, Object> paramMap) {
         return sysDepartmentMapper.list(paramMap);
     }
 }

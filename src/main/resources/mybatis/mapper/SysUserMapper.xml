@@ -191,7 +191,7 @@
         (CASE u.sex WHEN 1 THEN '男' ELSE '女' END) AS sex_desc
     </sql>
 
-    <select id="login" parameterType="java.util.HashMap" resultMap="BaseResultMapVo">
+    <select id="login" resultMap="BaseResultMapVo">
         select
         <include refid="Base_Column_List_vo"/>
         from

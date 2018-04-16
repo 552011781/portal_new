@@ -7,6 +7,7 @@ import java.io.Serializable;
  * created by lq at 2018-04-11 11:25
  */
 public class SysUserVo implements Serializable {
+    private static final long serialVersionUID = -3598174123135116682L;
     /**
      * 用户主键
      */

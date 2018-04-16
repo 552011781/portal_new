@@ -1,7 +1,7 @@
 package com.xcm.service;
 
-import com.github.pagehelper.Page;
 import com.xcm.model.SysRole;
+import com.xcm.page.PageInfo;
 
 import java.util.Map;
 
@@ -19,7 +19,7 @@ public interface SysRoleService extends BaseService<SysRole> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysRole> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    PageInfo<SysRole> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 
     /**
      * 新增角色(同时绑定权限)

@@ -154,9 +154,6 @@
         <if test="roleId != null">
             and ra.role_id = #{roleId, jdbcType=INTEGER}
         </if>
-        <if test="pageNum != null">
-            limit #{pageNum,jdbcType=INTEGER},#{pageSize,jdbcType=INTEGER}
-        </if>
     </select>
 
     <!--按条件统计数量（可按条件）-->
@@ -181,7 +178,7 @@
     <!--统计权限与角色关联的数量-->
     <select id="countRoleAuthority" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         select COUNT(*) from role_authority
-        where status='1'
+        where 1=1
         <if test="authorityId != null">
             and authority_id = #{authorityId, jdbcType=INTEGER}
         </if>

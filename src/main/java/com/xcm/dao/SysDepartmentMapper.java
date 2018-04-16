@@ -19,7 +19,7 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
      * @param paramMap 参数
      * @return
      */
-    Page<SysDepartmentVo> listPage(Map<String, String> paramMap);
+    Page<SysDepartmentVo> listPage(Map<String, Object> paramMap);
 
     /**
      * 查询集合
@@ -27,7 +27,7 @@ public interface SysDepartmentMapper extends BaseMapper<SysDepartment> {
      * @param paramMap 参数map
      * @return
      */
-    List<SysDepartmentVo> list(Map<String, String> paramMap);
+    List<SysDepartmentVo> list(Map<String, Object> paramMap);
 
     /**
      * 根据id查询

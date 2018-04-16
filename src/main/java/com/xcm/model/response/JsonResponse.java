@@ -1,10 +1,13 @@
 package com.xcm.model.response;
 
+import java.io.Serializable;
+
 /**
  * JSON格式相应类
  * created by lq at 2018-04-13 17:22
  **/
-public class JsonResponse {
+public class JsonResponse implements Serializable{
+    private static final long serialVersionUID = 2283494638872564440L;
     /**
      * 结果编码（0成功，1失败，-1系统错误 ）
      */

@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.xcm.model.SysRole;
 import com.xcm.model.RoleAuthority;
 import com.xcm.model.UserRole;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param paramMap 参数
      * @return
      */
-    Page<SysRole> listPage(Map<String, String> paramMap);
+    Page<SysRole> listPage(Map<String, Object> paramMap);
 
     /**
      * 查询集合
@@ -28,7 +29,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param paramMap 参数
      * @return
      */
-    List<SysRole> list(Map<String, String> paramMap);
+    List<SysRole> list(Map<String, Object> paramMap);
 
     /**
      * 清除指定角色已有的权限
@@ -60,7 +61,7 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param userId 用户id
      * @return
      */
-    int countRoleRelationWithUser(Integer roleId, Integer userId);
+    int countRoleRelationWithUser(@Param("roleId") Integer roleId, @Param("userId") Integer userId);
 
     /**
      * 给角色添加用户

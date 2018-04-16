@@ -76,7 +76,8 @@
 
     <update id="updateByPrimaryKey" parameterType="com.xcm.model.SysRole">
         update
-        <include refid="Base_table_name"/> SET
+        <include refid="Base_table_name"/>
+        SET
         role_name = #{roleName,jdbcType=VARCHAR},
         role_desc = #{roleDesc,jdbcType=VARCHAR},
         create_time = #{createTime,jdbcType=BIGINT},
@@ -142,17 +143,17 @@
     <select id="countRoleRelationWithRoleAndUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         SELECT COUNT(*)
         FROM role_authority ra, user_role ur
-        WHERE status='1'
+        WHERE 1=1
         <if test="roleId != null">
             and ra.role_id = #{roleId, jdbcType=INTEGER} OR ur.role_id = #{roleId, jdbcType=INTEGER}
         </if>
     </select>
 
     <!--统计角色用户关联的数量-->
-    <select id="countRoleRelationWithUser" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    <select id="countRoleRelationWithUser" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM user_role
-        WHERE status='1'
+        WHERE 1=1
         <if test="roleId != null">
             and role_id = #{roleId, jdbcType=INTEGER}
         </if>

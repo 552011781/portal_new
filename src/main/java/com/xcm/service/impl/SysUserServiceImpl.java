@@ -11,7 +11,7 @@ import com.xcm.dao.SysUserMapper;
 import com.xcm.model.SysUser;
 import com.xcm.model.UserRole;
 import com.xcm.model.vo.SysUserVo;
-import com.xcm.page.PageUtil;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -35,20 +35,21 @@ public class SysUserServiceImpl implements SysUserService {
 
 
     /**
-     * 登录系统
+     * 登陆
      *
-     * @param paramMap 用户名
+     * @param userName 用户名
+     * @param password 密码
+     * @param system   系统标识
      * @return
      */
     @Override
     @Transactional(readOnly = false, rollbackFor = Exception.class)
-    public SysUserVo login(Map<String, String> paramMap) {
-        SysUserVo loginUser = sysUserMapper.login(paramMap);
+    public SysUserVo login(String userName, String password, String system) {
+        SysUserVo loginUser = sysUserMapper.login(userName, password);
         if (null != loginUser && CheckUtil.checkNumOk(loginUser.getUserId())) {
             //1.使用redis缓存，用户id-用户id-用户对象
             //redisCacheDao.putCache(loginUser.getUserId().toString(), CacheSysUserConstant.USER, loginUser);
             //2.存自定义配置中
-            String system = paramMap.get("system");
             if (StringUtils.isNotBlank(system) && SystemNameContants.SYSTEM_PORTAL.equals(system)) {
                 //设置统一账户管理平台当前登录用户
                 MyConfig.loginUsersMap.put(CacheSysUserConstant.CURRENT_USER, loginUser);
@@ -69,8 +70,8 @@ public class SysUserServiceImpl implements SysUserService {
         //redis缓存中清除登录用户信息
         //redisCacheDao.putCache(system, userId.toString(), null);
         //自定义存储中清除登录用户信息
-        if (StringUtils.isNotBlank(system) && SystemNameContants.SYSTEM_PORTAL.equals(system)) {
-            //设置统一账户管理平台当前登录用户 退出
+        if (StringUtils.isNotBlank(system) && SystemNameContants.SYSTEM_PORTAL.equalsIgnoreCase(system)) {
+            //统一账户管理平台当前登录用户退出
             MyConfig.loginUsersMap.put(CacheSysUserConstant.CURRENT_USER, null);
         }
         MyConfig.loginUsersMap.put(userId.toString(), null);
@@ -86,10 +87,10 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<SysUserVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize) {
+    public PageInfo<SysUserVo> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-        paramMap = PageUtil.putPageinfoToParam(paramMap, pageNum, pageSize);
-        return sysUserMapper.listPage(paramMap);
+        Page<SysUserVo> page = sysUserMapper.listPage(paramMap);
+        return PageInfo.build(page);
     }
 
     /**
@@ -100,7 +101,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<SysUserVo> list(Map<String, String> paramMap) {
+    public List<SysUserVo> list(Map<String, Object> paramMap) {
         return sysUserMapper.list(paramMap);
     }
 
@@ -247,7 +248,7 @@ public class SysUserServiceImpl implements SysUserService {
      */
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
-    public void setEnbleOrDisable(Map<String, String> paramMap) {
+    public void setEnbleOrDisable(Map<String, Object> paramMap) {
         sysUserMapper.setEnableOrDiable(paramMap);
     }
 }

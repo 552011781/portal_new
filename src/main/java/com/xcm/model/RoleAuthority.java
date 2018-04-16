@@ -1,10 +1,13 @@
 package com.xcm.model;
 
+import java.io.Serializable;
+
 /**
  * 角色权限关联表
  * created by lq at 2018-04-14 13:52
  **/
-public class RoleAuthority {
+public class RoleAuthority implements Serializable{
+    private static final long serialVersionUID = -7191979050540371030L;
     private Integer roleId;
     private Integer authorityId;
 

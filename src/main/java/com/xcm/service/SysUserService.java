@@ -1,8 +1,8 @@
 package com.xcm.service;
 
-import com.github.pagehelper.Page;
 import com.xcm.model.SysUser;
 import com.xcm.model.vo.SysUserVo;
+import com.xcm.page.PageInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -15,9 +15,12 @@ public interface SysUserService extends BaseService<SysUser> {
     /**
      * 用户登陆
      *
-     * @param paramMap
+     * @param userName 用户名
+     * @param password 密码
+     * @param system   系统标志
+     * @return
      */
-    SysUserVo login(Map<String, String> paramMap);
+    SysUserVo login(String userName, String password, String system);
 
     /**
      * 退出
@@ -60,7 +63,7 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param pageSize 每页几条
      * @return
      */
-    Page<SysUserVo> listPage(Map<String, String> paramMap, Integer pageNum, Integer pageSize);
+    PageInfo<SysUserVo> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize);
 
     /**
      * 根据用户id查询VO类
@@ -76,12 +79,12 @@ public interface SysUserService extends BaseService<SysUser> {
      * @param paramMap 参数map
      * @return
      */
-    List<SysUserVo> list(Map<String, String> paramMap);
+    List<SysUserVo> list(Map<String, Object> paramMap);
 
     /**
      * 设置用户启用状态
      *
      * @param paramMap
      */
-    void setEnbleOrDisable(Map<String, String> paramMap);
+    void setEnbleOrDisable(Map<String, Object> paramMap);
 }

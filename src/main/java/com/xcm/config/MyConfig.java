@@ -44,12 +44,15 @@ public class MyConfig implements InitializingBean, ServletContextAware {
 
     @Override
     public void setServletContext(ServletContext servletContext) {
-        Map<String, String> params = new HashMap<>();
+        //查询所有系统
+        Map<String, Object> params = new HashMap<>();
         params.put("type", SysAuthorityConstants.SYS_AUTHORITY_TYPE_SYSTEM);
         List<SysAuthority> systemList = sysAuthorityMapper.list(params);
         if (CheckUtil.checkListOk(systemList)) {
             for (int i = 0; i < systemList.size(); i++) {
+                //系统对象
                 systemMap.put(systemList.get(i).getItemId(), systemList.get(i));
+                //系统标志
                 systemSignSet.add(systemList.get(i).getItemId());
             }
         }

@@ -1,10 +1,10 @@
 package com.xcm.controller;
 
-import com.github.pagehelper.Page;
 import com.xcm.constant.BaseConstant;
 import com.xcm.constant.business.SysAuthorityConstants;
 import com.xcm.model.SysAuthority;
 import com.xcm.model.response.JsonResponseBuilder;
+import com.xcm.page.PageInfo;
 import com.xcm.service.SysAuthorityService;
 import com.xcm.util.CheckUtil;
 import com.xcm.validator.SysAuthorityValidator;
@@ -121,7 +121,7 @@ public class SysAuthorityController extends BaseController {
     @ResponseBody
     public Object list(Integer roleId, Integer userId) {
         try {
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             if (CheckUtil.checkNumOk(roleId)) {
                 paramMap.put("roleId", String.valueOf(roleId));
             }
@@ -151,14 +151,14 @@ public class SysAuthorityController extends BaseController {
                            @RequestParam(name = "pageNum", defaultValue = "1") Integer pageNum,
                            @RequestParam(name = "pageSize", defaultValue = "20") Integer pageSize) {
         try {
-            Map<String, String> paramMap = new HashMap<>();
+            Map<String, Object> paramMap = new HashMap<>();
             if (CheckUtil.checkNumOk(roleId)) {
                 paramMap.put("roleId", String.valueOf(roleId));
             }
             if (CheckUtil.checkNumOk(userId)) {
                 paramMap.put("userId", String.valueOf(userId));
             }
-            Page<SysAuthority> sysAuthorityList = sysAuthorityService.listPage(paramMap, pageNum, pageSize);
+            PageInfo<SysAuthority> sysAuthorityList = sysAuthorityService.listPage(paramMap, pageNum, pageSize);
             return JsonResponseBuilder.buildSuccess(sysAuthorityList);
         } catch (Exception e) {
             logger.error("SysAuthorityController listPage 查询权限列表分页失败：" + e.getMessage());

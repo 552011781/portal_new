@@ -7,6 +7,7 @@ import java.io.Serializable;
  * created by lq at 2018-04-11 11:25
  */
 public class SysAuthority implements Serializable {
+    private static final long serialVersionUID = 2659670288727677288L;
     /**
      * 权限id
      */
