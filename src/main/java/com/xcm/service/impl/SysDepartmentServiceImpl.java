@@ -74,6 +74,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @param id 主键
      * @return
      */
+    @Transactional(readOnly = true)
     @Override
     public SysDepartmentVo getByIdVo(Integer id) {
         return sysDepartmentMapper.getByIdVo(id);
@@ -85,11 +86,19 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @param departmentName 部门名称
      * @return
      */
+    @Transactional(readOnly = true)
     @Override
     public SysDepartment getByName(String departmentName) {
         return sysDepartmentMapper.getByName(departmentName);
     }
 
+    /**
+     * 判断是否可删除
+     *
+     * @param departmentId
+     * @return 可删除返回true, 反之false
+     */
+    @Transactional(readOnly = true)
     @Override
     public boolean canDelete(Integer departmentId) {
         Integer count = sysDepartmentMapper.countByParentId(departmentId);
@@ -102,11 +111,20 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @param id 主键
      * @return
      */
+    @Transactional(readOnly = true)
     @Override
     public SysDepartment getById(Integer id) {
         return sysDepartmentMapper.getById(id);
     }
 
+    /**
+     * 列表分页
+     *
+     * @param paramMap 参数
+     * @param pageNum  第几页
+     * @param pageSize 每页几条
+     * @return
+     */
     @Override
     public PageInfo<SysDepartmentVo> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -120,6 +138,7 @@ public class SysDepartmentServiceImpl implements SysDepartmentService {
      * @param paramMap 参数map
      * @return
      */
+    @Transactional(readOnly = true)
     @Override
     public List<SysDepartmentVo> list(Map<String, Object> paramMap) {
         return sysDepartmentMapper.list(paramMap);

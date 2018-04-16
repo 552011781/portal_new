@@ -119,7 +119,10 @@ public class SysUserValidator {
         if (null == sysUser) {
             return SysUserConstants.VALIDATE_NO_SYS_USER;
         }
-        if (null == sysUser.getUserName() || !isUsername(sysUser.getUserName())) {
+        if (null == sysUser.getUserName()) {
+            return SysUserConstants.LOGIN_NO_USER_NAME;
+        }
+        if (!isUsername(sysUser.getUserName())) {
             return SysUserConstants.VALIDATE_USERNAME_ERROR;
         }
         if (null == sysUser.getPassword() || !isPassword(sysUser.getPassword())) {
@@ -163,6 +166,8 @@ public class SysUserValidator {
         if (!isUsername(userName)) {
             return SysUserConstants.LOGIN_USER_NAME_ERROR;
         }
+        // TODO 解密后验证暂未实现
+
         if (!isPassword(password)) {
             return SysUserConstants.LOGIN_PASSWORD_ERROR;
         }

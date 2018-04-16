@@ -14,6 +14,7 @@ import com.xcm.model.vo.SysUserVo;
 import com.xcm.page.PageInfo;
 import com.xcm.service.SysUserService;
 import com.xcm.util.CheckUtil;
+import com.xcm.util.MD5Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,7 +123,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     /**
-     * 新增用户(绑定角色)
+     * 新增用户(同时绑定角色)
      *
      * @param sysUser 新增的用戶对象
      * @param roleIds 角色id(多个以英文的逗号隔开)
@@ -137,6 +138,7 @@ public class SysUserServiceImpl implements SysUserService {
         sysUser.setCreateUserId(currentUser.getUserId());
         sysUser.setAble("1");
         sysUser.setDepartmentId(CheckUtil.removeLastChar(BaseConstant.COMMA_EN, sysUser.getDepartmentId()));
+        sysUser.setPassword(MD5Utils.md5_32(sysUser.getPassword()));
         sysUserMapper.save(sysUser);
         // 给用户绑定角色
         saveUserRole(sysUser.getUserId(), roleIds);
@@ -148,6 +150,7 @@ public class SysUserServiceImpl implements SysUserService {
      * @param userName 用户名
      * @return
      */
+    @Transactional(readOnly = true)
     @Override
     public SysUser getByUsername(String userName) {
         return sysUserMapper.getByUsername(userName);

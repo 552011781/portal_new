@@ -91,6 +91,15 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
         return sysAuthorityMapper.list(paramMap);
     }
 
+    /**
+     * 列表分页
+     *
+     * @param paramMap 参数map
+     * @param pageNum  第几页
+     * @param pageSize 每页几条
+     * @return
+     */
+    @Transactional(readOnly = true)
     @Override
     public PageInfo<SysAuthority> listPage(Map<String, Object> paramMap, Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize);
@@ -111,6 +120,13 @@ public class SysAuthorityServiceImpl implements SysAuthorityService {
         return count <= 0;
     }
 
+    /**
+     * 判断是否可删除
+     *
+     * @param authorityId 需要删除的权限id
+     * @return 可删除返回true, 反之false
+     */
+    @Transactional(readOnly = true)
     @Override
     public boolean canDelete(Integer authorityId) {
         //是否与角色关联

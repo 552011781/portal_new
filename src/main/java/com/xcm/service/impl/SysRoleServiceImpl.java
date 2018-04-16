@@ -84,6 +84,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @param roleId  角色id
      * @param userIds 用户id(多个以英文逗号隔开)
      */
+    @Transactional(readOnly = false, rollbackFor = Exception.class)
     @Override
     public void saveUserForRole(Integer roleId, String userIds) {
         // 给用户绑定角色
@@ -166,8 +167,9 @@ public class SysRoleServiceImpl implements SysRoleService {
      * 判断是否可删除
      *
      * @param roleId 角色id
-     * @return
+     * @return 可删除返回true, 反之false
      */
+    @Transactional(readOnly = true)
     @Override
     public boolean canDelete(Integer roleId) {
         int count = sysRoleMapper.countRoleRelationWithRoleAndUser(roleId);
